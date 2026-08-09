@@ -33,4 +33,12 @@ searchInput.addEventListener("input", function () {
 
   });
 
-});
+});function createCustomer(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("customerName").value;
+
+  localStorage.setItem("customerName", name);
+
+  window.location.href = "customer-dashboard.html";
+                             }
