@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+  line-height: 1.6;
+}
+
+header {
+  background: #0b5cff;
+  color: white;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+header p {
+  font-size: 15px;
+}
+
+.hero {
+  text-align: center;
+  padding: 45px 20px;
+  background: white;
+}
+
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+#search {
+  width: 90%;
+  max-width: 600px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+button {
+  border: none;
+  background: #0b5cff;
+  color: white;
+  padding: 12px 18px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #0848c7;
+}
+
+.services {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.services h2,
+.jobs h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.service-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+}
+
+.service-card h3 {
+  margin: 10px 0;
+}
+
+.service-card p {
+  color: #667085;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.jobs {
+  padding: 40px 20px;
+  background: #eef4ff;
+}
+
+.job-card {
+  background: white;
+  max-width: 600px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 14px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.job-card p {
+  margin: 10px 0 15px;
+  color: #667085;
+}
+
+footer {
+  background: #172033;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+  margin-top: 0;
+}
+
+footer p {
+  font-size: 13px;
+  margin: 4px;
+  }
