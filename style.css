@@ -140,4 +140,84 @@ footer {
 footer p {
   font-size: 13px;
   margin: 4px;
+  }/* Provider Registration */
+
+#providerForm {
+  max-width: 600px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+#providerForm input,
+#providerForm select,
+#providerForm textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  outline: none;
+  background: white;
+}
+
+#providerForm textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+#providerForm input:focus,
+#providerForm select:focus,
+#providerForm textarea:focus {
+  border-color: #0b5cff;
+}
+
+#providerForm button {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}/* Provider Registration */
+
+#providerForm {
+  max-width: 600px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+#providerForm input,
+#providerForm select,
+#providerForm textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  outline: none;
+  background: white;
+}
+
+#providerForm textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+#providerForm input:focus,
+#providerForm select:focus,
+#providerForm textarea:focus {
+  border-color: #0b5cff;
+}
+
+#providerForm button {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: bold;
   }
