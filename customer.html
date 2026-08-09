@@ -87,26 +87,47 @@
     <p>Connecting students with opportunities.</p>
   </footer>
 
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 
-  const firebaseConfig = {",
-    authDomain: "good-news-campus-connect.firebaseapp.com",
-    projectId: "good-news-campus-connect",
-    storageBucket: "good-news-campus-connect.firebasestorage.app",
-    messagingSenderId: "301910999227",
-    appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+<script>
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-                                                </script>
-    // PASTE THE SAME firebaseConfig VALUES
-    // FROM YOUR FIREBASE PROJECT HERE
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+
+  function createCustomer(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("customerName").value;
+    const email = document.getElementById("customerEmail").value;
+    const password = document.getElementById("customerPassword").value;
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(function(userCredential) {
+
+        localStorage.setItem("customerName", name);
+
+        alert("Account created successfully! 🎉");
+
+        window.location.href = "customer-dashboard.html";
+
+      })
+      .catch(function(error) {
+
+        alert("Registration failed: " + error.message);
+
+      });
+  }
+</script>   // FROM YOUR FIREBASE PROJECT HERE
   };
 
   const app = initializeApp(firebaseConfig);
