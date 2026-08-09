@@ -87,7 +87,42 @@
     <p>Connecting students with opportunities.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    // PASTE THE SAME firebaseConfig VALUES
+    // FROM YOUR FIREBASE PROJECT HERE
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.createCustomer = async function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("customerName").value;
+    const email = document.getElementById("customerEmail").value;
+    const password = document.getElementById("customerPassword").value;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      localStorage.setItem("customerName", name);
+
+      alert("Account created successfully! 🎉");
+
+      window.location.href = "customer-dashboard.html";
+
+    } catch (error) {
+      alert("Registration failed: " + error.message);
+    }
+  };
+  </script>
 
 </body>
         </html>
