@@ -94,7 +94,17 @@
     createUserWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
-  const firebaseConfig = {
+  const firebaseConfig = {",
+    authDomain: "good-news-campus-connect.firebaseapp.com",
+    projectId: "good-news-campus-connect",
+    storageBucket: "good-news-campus-connect.firebasestorage.app",
+    messagingSenderId: "301910999227",
+    appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+                                                </script>
     // PASTE THE SAME firebaseConfig VALUES
     // FROM YOUR FIREBASE PROJECT HERE
   };
