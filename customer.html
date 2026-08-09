@@ -86,35 +86,52 @@
     <p>© 2026 Good News Campus Connect</p>
     <p>Connecting students with opportunities.</p>
   </footer>
-
-  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
 <script>
   const firebaseConfig = {
-    
-    apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+    apiKey: "YOUR_API_KEY",
     authDomain: "good-news-campus-connect.firebaseapp.com",
     projectId: "good-news-campus-connect",
     storageBucket: "good-news-campus-connect.firebasestorage.app",
     messagingSenderId: "301910999227",
     appId: "1:301910999227:web:e5a4fb85d33380521c299e"
   };
-  
 
   firebase.initializeApp(firebaseConfig);
 
   const auth = firebase.auth();
+  const db = firebase.firestore();
 
   function createCustomer(event) {
     event.preventDefault();
 
-    const name = document.getElementById("customerName").value;
-    const email = document.getElementById("customerEmail").value;
+    const name = document.getElementById("customerName").value.trim();
+    const email = document.getElementById("customerEmail").value.trim();
     const password = document.getElementById("customerPassword").value;
+    const phone = document.getElementById("customerPhone").value.trim();
+    const university = document.getElementById("customerUniversity").value.trim();
+    const location = document.getElementById("customerLocation").value.trim();
 
     auth.createUserWithEmailAndPassword(email, password)
       .then(function(userCredential) {
+
+        const user = userCredential.user;
+
+        return db.collection("customers").doc(user.uid).set({
+          name: name,
+          email: email,
+          phone: phone,
+          university: university,
+          location: location,
+          role: "customer",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+      })
+      .then(function() {
 
         localStorage.setItem("customerName", name);
 
@@ -129,33 +146,10 @@
 
       });
   }
-</script>   // FROM YOUR FIREBASE PROJECT HERE
-  };
+</script>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  window.createCustomer = async function(event) {
-    event.preventDefault();
-
-    const name = document.getElementById("customerName").value;
-    const email = document.getElementById("customerEmail").value;
-    const password = document.getElementById("customerPassword").value;
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-
-      localStorage.setItem("customerName", name);
-
-      alert("Account created successfully! 🎉");
-
-      window.location.href = "customer-dashboard.html";
-
-    } catch (error) {
-      alert("Registration failed: " + error.message);
-    }
-  };
-  </script>
+</body>
+  </html>
 
 </body>
         </html>
