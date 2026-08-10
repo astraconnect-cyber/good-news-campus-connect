@@ -118,7 +118,9 @@
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
@@ -128,95 +130,60 @@ const firebaseConfig = {
   storageBucket: "good-news-campus-connect.firebasestorage.app",
   messagingSenderId: "301910999227",
   appId: "1:301910999227:web:e5a4fb85d33380521c299e"
-};"
-  };
+};
 
-  firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
+window.createProvider = function(event) {
+  event.preventDefault();
 
-  function createProvider(event) {
+  const name = document.getElementById("fullName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const university = document.getElementById("university").value.trim();
+  const service = document.getElementById("service").value;
+  const location = document.getElementById("location").value.trim();
+  const price = Number(document.getElementById("price").value);
+  const description = document.getElementById("description").value.trim();
 
-    event.preventDefault();
+  auth.createUserWithEmailAndPassword(email, password)
+    .then(function(userCredential) {
 
-    const name =
-      document.getElementById("fullName").value.trim();
+      return db.collection("providers")
+        .doc(userCredential.user.uid)
+        .set({
+          name: name,
+          email: email,
+          phone: phone,
+          university: university,
+          service: service,
+          location: location,
+          startingPrice: price,
+          description: description,
+          role: "provider",
+          status: "available",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-    const phone =
-      document.getElementById("phone").value.trim();
+    })
+    .then(function() {
 
-    const email =
-      document.getElementById("email").value.trim();
+      alert("Provider account created successfully! 🎉");
 
-    const password =
-      document.getElementById("password").value;
+      window.location.href = "provider-dashboard.html";
 
-    const university =
-      document.getElementById("university").value.trim();
+    })
+    .catch(function(error) {
 
-    const service =
-      document.getElementById("service").value;
+      alert("Registration failed: " + error.message);
 
-    const location =
-      document.getElementById("location").value.trim();
-
-    const price =
-      Number(document.getElementById("price").value);
-
-    const description =
-      document.getElementById("description").value.trim();
-
-
-    auth.createUserWithEmailAndPassword(email, password)
-
-      .then(function(userCredential) {
-
-        const user = userCredential.user;
-
-        return db.collection("providers")
-          .doc(user.uid)
-          .set({
-
-            name: name,
-            email: email,
-            phone: phone,
-            university: university,
-            service: service,
-            location: location,
-            startingPrice: price,
-            description: description,
-            role: "provider",
-            status: "available",
-            createdAt:
-              firebase.firestore.FieldValue.serverTimestamp()
-
-          });
-
-      })
-
-      .then(function() {
-
-        alert(
-          "Provider account created successfully! 🎉"
-        );
-
-        window.location.href = "provider-dashboard.html";
-
-      })
-
-      .catch(function(error) {
-
-        alert(
-          "Registration failed: " + error.message
-        );
-
-      });
-
-  }
-
+    });
+};
 </script>
 
 </body>
-  </html>
+</html>
