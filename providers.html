@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Find Providers - Good News Campus Connect</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Find a Service Provider</p>
+</header>
+
+<section class="hero">
+
+  <h2 id="serviceTitle">Available Providers</h2>
+
+  <p>
+    Choose a provider that matches your needs.
+  </p>
+
+</section>
+
+
+<section class="services">
+
+  <div id="providerList" class="service-grid">
+
+    <p>Loading providers...</p>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <p>© 2026 Good News Campus Connect</p>
+  <p>Connecting students with opportunities.</p>
+
+</footer>
+
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+  authDomain: "good-news-campus-connect.firebaseapp.com",
+  projectId: "good-news-campus-connect",
+  storageBucket: "good-news-campus-connect.firebasestorage.app",
+  messagingSenderId: "301910999227",
+  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+
+const params = new URLSearchParams(window.location.search);
+
+const selectedService = params.get("service");
+
+
+document.getElementById("serviceTitle").textContent =
+  selectedService
+    ? selectedService + " Providers"
+    : "Available Providers";
+
+
+const providerList =
+  document.getElementById("providerList");
+
+
+let query = db.collection("providers");
+
+
+if (selectedService) {
+
+  query = query.where("service", "==", selectedService);
+
+}
+
+
+query.get()
+
+  .then(function(snapshot) {
+
+    providerList.innerHTML = "";
+
+
+    if (snapshot.empty) {
+
+      providerList.innerHTML =
+        "<p>No providers are available for this service yet.</p>";
+
+      return;
+
+    }
+
+
+    snapshot.forEach(function(doc) {
+
+      const provider = doc.data();
+
+
+      const card = document.createElement("div");
+
+      card.className = "service-card";
+
+
+      card.innerHTML = `
+
+        <div style="font-size:40px;">👤</div>
+
+        <h3>${provider.name || "Provider"}</h3>
+
+        <p>🛠️ ${provider.service || "Service"}</p>
+
+        <p>📍 ${provider.location || "Location not provided"}</p>
+
+        <p>💰 Starting from ₦${provider.startingPrice || 0}</p>
+
+        <p>
+          🟢 ${provider.status || "Available"}
+        </p>
+
+        <p>
+          ${provider.description || ""}
+        </p>
+
+        <button onclick="viewProvider('${doc.id}')">
+          View Provider
+        </button>
+
+      `;
+
+
+      providerList.appendChild(card);
+
+    });
+
+  })
+
+  .catch(function(error) {
+
+    console.error(error);
+
+    providerList.innerHTML =
+      "<p>Unable to load providers. Please try again.</p>";
+
+  });
+
+
+function viewProvider(providerId) {
+
+  window.location.href =
+    "provider-profile.html?id=" + providerId;
+
+}
+
+</script>
+
+
+</body>
+    </html>
