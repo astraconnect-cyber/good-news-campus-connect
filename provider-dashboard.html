@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Provider Dashboard - Good News Campus Connect</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Provider Dashboard</p>
+</header>
+
+<section class="hero">
+
+  <h2>Welcome, Provider! 👋</h2>
+
+  <p>
+    Manage your services and view customer requests.
+  </p>
+
+  <div class="buttons">
+
+    <button onclick="window.location.href='index.html'">
+      🏠 Home
+    </button>
+
+    <button onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})">
+      👤 My Profile
+    </button>
+
+    <button onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">
+      📋 My Jobs
+    </button>
+
+  </div>
+
+</section>
+
+
+<section class="services" id="profile">
+
+  <h2>👤 My Provider Profile</h2>
+
+  <div class="job-card">
+
+    <p><strong>Name:</strong> <span id="providerName">Loading...</span></p>
+
+    <p><strong>Email:</strong> <span id="providerEmail">Loading...</span></p>
+
+    <p><strong>Service:</strong> <span id="providerService">Loading...</span></p>
+
+    <p><strong>Location:</strong> <span id="providerLocation">Loading...</span></p>
+
+    <p><strong>Starting Price:</strong> ₦<span id="providerPrice">Loading...</span></p>
+
+    <p><strong>Description:</strong> <span id="providerDescription">Loading...</span></p>
+
+  </div>
+
+</section>
+
+
+<section class="jobs" id="jobs">
+
+  <h2>📋 Customer Requests</h2>
+
+  <div class="job-card">
+
+    <p id="bookingMessage">
+      You don't have any customer requests yet.
+    </p>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <p>© 2026 Good News Campus Connect</p>
+  <p>Connecting students with opportunities.</p>
+
+</footer>
+
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+  authDomain: "good-news-campus-connect.firebaseapp.com",
+  projectId: "good-news-campus-connect",
+  storageBucket: "good-news-campus-connect.firebasestorage.app",
+  messagingSenderId: "301910999227",
+  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+
+auth.onAuthStateChanged(function(user) {
+
+  if (!user) {
+
+    window.location.href = "provider.html";
+
+    return;
+
+  }
+
+
+  db.collection("providers")
+    .doc(user.uid)
+    .get()
+
+    .then(function(doc) {
+
+      if (doc.exists) {
+
+        const provider = doc.data();
+
+        document.getElementById("providerName").textContent =
+          provider.name || "";
+
+        document.getElementById("providerEmail").textContent =
+          provider.email || "";
+
+        document.getElementById("providerService").textContent =
+          provider.service || "";
+
+        document.getElementById("providerLocation").textContent =
+          provider.location || "";
+
+        document.getElementById("providerPrice").textContent =
+          provider.startingPrice || "0";
+
+        document.getElementById("providerDescription").textContent =
+          provider.description || "";
+
+      }
+
+    })
+
+    .catch(function(error) {
+
+      console.error("Error loading provider:", error);
+
+    });
+
+});
+
+</script>
+
+
+</body>
+  </html>
