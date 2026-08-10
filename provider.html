@@ -11,106 +11,212 @@
 
 <body>
 
-  <header>
-    <h1>🎓 Good News Campus Connect</h1>
-    <p>Become a Service Provider</p>
-  </header>
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Become a Service Provider</p>
+</header>
 
-  <section class="hero">
+<section class="hero">
 
-    <h2>Offer Your Services</h2>
+  <h2>Offer Your Services</h2>
 
-    <p>
-      Join Good News Campus Connect and connect with
-      students who need your services.
-    </p>
+  <p>
+    Join Good News Campus Connect and connect with
+    students who need your services.
+  </p>
 
-    <form id="providerForm">
+  <form id="providerForm" onsubmit="createProvider(event)">
 
-      <input
-        type="text"
-        id="fullName"
-        placeholder="Full Name"
-        required
-      >
+    <input
+      type="text"
+      id="fullName"
+      placeholder="Full Name"
+      required
+    >
 
-      <input
-  type="tel"
-  id="phone"
-  placeholder="Phone / WhatsApp Number"
-  required
->
+    <input
+      type="tel"
+      id="phone"
+      placeholder="Phone / WhatsApp Number"
+      required
+    >
 
-<input
-  type="email"
-  id="email"
-  placeholder="Email Address"
-  required
->
+    <input
+      type="email"
+      id="email"
+      placeholder="Email Address"
+      required
+    >
 
-<input
-  type="text"
-  id="university"
-  placeholder="University"
-  required
->
+    <input
+      type="password"
+      id="password"
+      placeholder="Create Password"
+      minlength="6"
+      required
+    >
 
-<label for="profilePhoto">Profile Photo</label>
+    <input
+      type="text"
+      id="university"
+      placeholder="University"
+      required
+    >
 
-<input
-  type="file"
-  id="profilePhoto"
-  accept="image/*"
-  required
->
-      u     <select id="service" required>
-        <option value="">Select your service</option>
-        <option>Laundry</option>
-        <option>Laptop Engineer</option>
-        <option>Cleaning Services</option>
-        <option>Hair Dressing</option>
-        <option>Nail Technician</option>
-        <option>Painter</option>
-        <option>Website Developer</option>
-        <option>Assignment Runs</option>
-        <option>Phone Engineer</option>
-        <option>Graphics Design</option>
-        <option>Other Services</option>
-      </select>
+    <select id="service" required>
+      <option value="">Select your service</option>
+      <option>Laundry</option>
+      <option>Laptop Engineer</option>
+      <option>Cleaning Services</option>
+      <option>Hair Dressing</option>
+      <option>Nail Technician</option>
+      <option>Painter</option>
+      <option>Website Developer</option>
+      <option>Assignment Runs</option>
+      <option>Phone Engineer</option>
+      <option>Graphics Design</option>
+      <option>Other Services</option>
+    </select>
 
-      <input
-        type="text"
-        id="location"
-        placeholder="Your Campus / Location"
-        required
-      >
+    <input
+      type="text"
+      id="location"
+      placeholder="Your Campus / Location"
+      required
+    >
 
-      <input
-        type="number"
-        id="price"
-        placeholder="Starting Price (₦)"
-        required
-      >
+    <input
+      type="number"
+      id="price"
+      placeholder="Starting Price (₦)"
+      min="0"
+      required
+    >
 
-      <textarea
-        id="description"
-        placeholder="Describe your service..."
-        required
-      ></textarea>
+    <textarea
+      id="description"
+      placeholder="Describe your service..."
+      required
+    ></textarea>
 
-      <button type="submit">
-        Register as a Provider
-      </button>
+    <button type="submit">
+      Register as a Provider
+    </button>
 
-    </form>
+  </form>
 
-  </section>
+</section>
 
-  <footer>
-    <p>© 2026 Good News Campus Connect</p>
-  </footer>
+<footer>
+  <p>© 2026 Good News Campus Connect</p>
+  <p>Connecting students with opportunities.</p>
+</footer>
 
-  <script src="script.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "good-news-campus-connect.firebaseapp.com",
+    projectId: "good-news-campus-connect",
+    storageBucket: "good-news-campus-connect.firebasestorage.app",
+    messagingSenderId: "301910999227",
+    appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+
+  function createProvider(event) {
+
+    event.preventDefault();
+
+    const name =
+      document.getElementById("fullName").value.trim();
+
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const university =
+      document.getElementById("university").value.trim();
+
+    const service =
+      document.getElementById("service").value;
+
+    const location =
+      document.getElementById("location").value.trim();
+
+    const price =
+      Number(document.getElementById("price").value);
+
+    const description =
+      document.getElementById("description").value.trim();
+
+
+    auth.createUserWithEmailAndPassword(email, password)
+
+      .then(function(userCredential) {
+
+        const user = userCredential.user;
+
+        return db.collection("providers")
+          .doc(user.uid)
+          .set({
+
+            name: name,
+            email: email,
+            phone: phone,
+            university: university,
+            service: service,
+            location: location,
+            startingPrice: price,
+            description: description,
+            role: "provider",
+            status: "available",
+            createdAt:
+              firebase.firestore.FieldValue.serverTimestamp()
+
+          });
+
+      })
+
+      .then(function() {
+
+        alert(
+          "Provider account created successfully! 🎉"
+        );
+
+        window.location.href = "provider-dashboard.html";
+
+      })
+
+      .catch(function(error) {
+
+        alert(
+          "Registration failed: " + error.message
+        );
+
+      });
+
+  }
+
+</script>
 
 </body>
-        </html>
+  </html>
