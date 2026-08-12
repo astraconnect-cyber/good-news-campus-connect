@@ -11,150 +11,234 @@
 
 <body>
 
-  <header>
-    <h1>🎓 Good News Campus Connect</h1>
-    <p>Find Services. Find Jobs. Earn While You Study.</p>
-  </header>
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Find Services. Find Jobs. Earn While You Study.</p>
+</header>
 
-  <section class="hero">
-    <h2>What do you need today?</h2>
 
-    <input
-      type="text"
-      id="search"
-      placeholder="Search for a service..."
-    >
+<section class="hero">
 
-    <a href="customer.html">
-  <button>👤 Create Customer Account</button>
-    </a>
-      <button onclick="findServices()">Find a Service</button>
-      <button onclick="window.location.href='provider.html'">
-  Become a Provider
-      </button>
+  <h2>What do you need today?</h2>
 
-  <section class="services">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search for a service..."
+  >
 
-    <h2>Popular Services</h2>
+  <a href="customer.html">
+    <button>👤 Create Customer Account</button>
+  </a>
 
-    <div class="service-grid">
+  <button onclick="window.location.href='providers.html'">
+    🔎 Find a Service
+  </button>
 
-      <div class="service-card">
-        🧺
-        <h3>Laundry</h3>
-        <p>Find reliable laundry providers.</p>
-        <button onclick="window.location.href='providers.html?service=Laundry'">
-  View Services
-        </button>
-      </div>
+  <button onclick="window.location.href='provider.html'">
+    👷 Become a Provider
+  </button>
 
-      <div class="service-card">
-        💻
-        <h3>Laptop Engineer</h3>
-        <p>Repair and maintenance services.</p>
+</section>
+
+
+<section class="services">
+
+  <h2>Popular Services</h2>
+
+  <div class="service-grid">
+
+
+    <!-- LAUNDRY -->
+    <div class="service-card">
+      🧺
+      <h3>Laundry</h3>
+      <p>Find reliable laundry providers.</p>
+
+      <a href="providers.html?service=Laundry">
         <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        🧹
-        <h3>Cleaning Services</h3>
-        <p>Get your room or apartment cleaned.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        💇
-        <h3>Hair Dressing</h3>
-        <p>Find hair stylists around campus.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        💅
-        <h3>Nail Technician</h3>
-        <p>Professional nail services.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        🎨
-        <h3>Painter</h3>
-        <p>Find painters for your projects.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        🌐
-        <h3>Website Developer</h3>
-        <p>Get websites and web applications built.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        📚
-        <h3>Assignment Runs</h3>
-        <p>Academic support and documentation services.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        📱
-        <h3>Phone Engineer</h3>
-        <p>Phone repairs and troubleshooting.</p>
-        <button>View Services</button>
-      </div>
-
-      <div class="service-card">
-        🖌️
-        <h3>Graphics Design</h3>
-        <p>Logos, flyers, posters and more.</p>
-        <button>View Services</button>
-      </div>
-
+      </a>
     </div>
 
-  </section>
 
-  <section class="jobs">
+    <!-- LAPTOP ENGINEER -->
+    <div class="service-card">
+      💻
+      <h3>Laptop Engineer</h3>
+      <p>Repair and maintenance services.</p>
 
-    <h2>💼 Job Vacancies</h2>
-
-    <div class="job-card">
-      <h3>Student Job Opportunities</h3>
-      <p>
-        Find part-time, remote and campus jobs that fit
-        your schedule.
-      </p>
-
-      <button>View Job Vacancies</button>
+      <a href="providers.html?service=Laptop%20Engineer">
+        <button>View Services</button>
+      </a>
     </div>
 
-  </section>
 
-  <footer>
-    <p>© 2026 Good News Campus Connect</p>
-    <p>Connecting students with opportunities.</p>
-  </footer><script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    <!-- CLEANING -->
+    <div class="service-card">
+      🧹
+      <h3>Cleaning Services</h3>
+      <p>Get your room or apartment cleaned.</p>
 
-  // Your web app's Firebase configuration
+      <a href="providers.html?service=Cleaning%20Services">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- HAIR DRESSING -->
+    <div class="service-card">
+      💇
+      <h3>Hair Dressing</h3>
+      <p>Find hair stylists around campus.</p>
+
+      <a href="providers.html?service=Hair%20Dressing">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- NAIL TECHNICIAN -->
+    <div class="service-card">
+      💅
+      <h3>Nail Technician</h3>
+      <p>Professional nail services.</p>
+
+      <a href="providers.html?service=Nail%20Technician">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- PAINTER -->
+    <div class="service-card">
+      🎨
+      <h3>Painter</h3>
+      <p>Find painters for your projects.</p>
+
+      <a href="providers.html?service=Painter">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- WEBSITE DEVELOPER -->
+    <div class="service-card">
+      🌐
+      <h3>Website Developer</h3>
+      <p>Get websites and web applications built.</p>
+
+      <a href="providers.html?service=Website%20Developer">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- ASSIGNMENT RUNS -->
+    <div class="service-card">
+      📚
+      <h3>Assignment Runs</h3>
+      <p>Academic support and documentation services.</p>
+
+      <a href="providers.html?service=Assignment%20Runs">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- PHONE ENGINEER -->
+    <div class="service-card">
+      📱
+      <h3>Phone Engineer</h3>
+      <p>Phone repairs and troubleshooting.</p>
+
+      <a href="providers.html?service=Phone%20Engineer">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+    <!-- GRAPHICS DESIGN -->
+    <div class="service-card">
+      🖌️
+      <h3>Graphics Design</h3>
+      <p>Logos, flyers, posters and more.</p>
+
+      <a href="providers.html?service=Graphics%20Design">
+        <button>View Services</button>
+      </a>
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<section class="jobs">
+
+  <h2>💼 Job Vacancies</h2>
+
+  <div class="job-card">
+
+    <h3>Student Job Opportunities</h3>
+
+    <p>
+      Find part-time, remote and campus jobs
+      that fit your schedule.
+    </p>
+
+    <button onclick="alert('Job vacancies coming soon! 🚀')">
+      View Job Vacancies
+    </button>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <p>© 2026 Good News Campus Connect</p>
+
+  <p>
+    Connecting students with opportunities.
+  </p>
+
+</footer>
+
+
+<script type="module">
+
+  import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+
   const firebaseConfig = {
+
     apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
-    authDomain: "good-news-campus-connect.firebaseapp.com",
-    projectId: "good-news-campus-connect",
-    storageBucket: "good-news-campus-connect.firebasestorage.app",
-    messagingSenderId: "301910999227",
-    appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+
+    authDomain:
+      "good-news-campus-connect.firebaseapp.com",
+
+    projectId:
+      "good-news-campus-connect",
+
+    storageBucket:
+      "good-news-campus-connect.firebasestorage.app",
+
+    messagingSenderId:
+      "301910999227",
+
+    appId:
+      "1:301910999227:web:e5a4fb85d33380521c299e"
+
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-                                                </script>
+  initializeApp(firebaseConfig);
 
-  <script src="script.js"></script>
+</script>
+
+
+<script src="script.js"></script>
 
 </body>
   </html>
