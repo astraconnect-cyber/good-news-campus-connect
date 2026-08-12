@@ -16,6 +16,7 @@
   <p>Customer Dashboard</p>
 </header>
 
+
 <section class="hero">
 
   <h2>Welcome 👋</h2>
@@ -24,15 +25,15 @@
 
   <div class="buttons">
 
-    <button onclick="window.location.href='index.html'">
+    <button onclick="goHome()">
       🏠 Home
     </button>
 
-    <button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+    <button onclick="showServices()">
       🔎 Find Services
     </button>
 
-    <button onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">
+    <button onclick="showJobs()">
       💼 Job Vacancies
     </button>
 
@@ -47,98 +48,167 @@
 
   <div class="service-grid">
 
+
+    <!-- LAUNDRY -->
     <div class="service-card">
       <div>🧺</div>
       <h3>Laundry</h3>
       <p>Find reliable laundry providers around your campus.</p>
-      <button onclick="window.location.href='providers.html?service=Laundry'">
-  Book Service
+
+      <button onclick="bookService('Laundry')">
+        Book Service
       </button>
     </div>
 
+
+    <!-- LAPTOP -->
     <div class="service-card">
       <div>💻</div>
       <h3>Laptop Engineer</h3>
       <p>Get help with laptop repairs and maintenance.</p>
-      <button onclick="bookService('Laptop Engineer')">Book Service</button>
+
+      <button onclick="bookService('Laptop Engineer')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- CLEANING -->
     <div class="service-card">
       <div>🧹</div>
       <h3>Cleaning Services</h3>
       <p>Find someone to clean your room or apartment.</p>
-      <button onclick="bookService('Cleaning Services')">Book Service</button>
+
+      <button onclick="bookService('Cleaning Services')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- HAIR -->
     <div class="service-card">
       <div>💇</div>
       <h3>Hair Dressing</h3>
       <p>Find professional hair stylists around campus.</p>
-      <button onclick="bookService('Hair Dressing')">Book Service</button>
+
+      <button onclick="bookService('Hair Dressing')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- NAIL -->
     <div class="service-card">
       <div>💅</div>
       <h3>Nail Technician</h3>
       <p>Book a professional nail technician.</p>
-      <button onclick="bookService('Nail Technician')">Book Service</button>
+
+      <button onclick="bookService('Nail Technician')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- PAINTER -->
     <div class="service-card">
       <div>🎨</div>
       <h3>Painter</h3>
       <p>Find painters for rooms, apartments and projects.</p>
-      <button onclick="bookService('Painter')">Book Service</button>
+
+      <button onclick="bookService('Painter')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- WEBSITE -->
     <div class="service-card">
       <div>🌐</div>
       <h3>Website Developer</h3>
       <p>Hire someone to build your website.</p>
-      <button onclick="bookService('Website Developer')">Book Service</button>
+
+      <button onclick="bookService('Website Developer')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- ASSIGNMENT -->
     <div class="service-card">
       <div>📚</div>
       <h3>Assignment Runs</h3>
       <p>Find help with typing, formatting and documentation.</p>
-      <button onclick="bookService('Assignment Runs')">Book Service</button>
+
+      <button onclick="bookService('Assignment Runs')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- PHONE -->
     <div class="service-card">
       <div>📱</div>
       <h3>Phone Engineer</h3>
       <p>Get help repairing your phone.</p>
-      <button onclick="bookService('Phone Engineer')">Book Service</button>
+
+      <button onclick="bookService('Phone Engineer')">
+        Book Service
+      </button>
     </div>
 
+
+    <!-- GRAPHICS -->
     <div class="service-card">
       <div>🖌️</div>
       <h3>Graphics Design</h3>
       <p>Logos, flyers, posters and other designs.</p>
-      <button onclick="bookService('Graphics Design')">Book Service</button>
-    </div>
 
-    <div class="service-card">
-      <div>💼</div>
-      <h3>Job Vacancies</h3>
-      <p>Find part-time, remote and campus opportunities.</p>
-      <button onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">
-        View Jobs
+      <button onclick="bookService('Graphics Design')">
+        Book Service
       </button>
     </div>
 
+
+    <!-- JOBS -->
+    <div class="service-card">
+      <div>💼</div>
+
+      <h3>Job Vacancies</h3>
+
+      <p>
+        Find part-time, remote and campus opportunities.
+      </p>
+
+      <button onclick="showJobs()">
+        View Jobs
+      </button>
+
+    </div>
+
+
+    <!-- OTHER -->
     <div class="service-card">
       <div>➕</div>
+
       <h3>Other Services</h3>
-      <p>Looking for something else? Request a service.</p>
-      <button onclick="bookService('Other Services')">Request Service</button>
+
+      <p>
+        Looking for something else? Request a service.
+      </p>
+
+      <button onclick="bookService('Other Services')">
+        Request Service
+      </button>
+
     </div>
+
 
   </div>
 
 </section>
 
+
+<!-- JOBS SECTION -->
 
 <section class="jobs" id="jobs">
 
@@ -153,7 +223,7 @@
       that fit your schedule.
     </p>
 
-    <button>
+    <button onclick="viewJobs()">
       View Available Jobs
     </button>
 
@@ -161,6 +231,8 @@
 
 </section>
 
+
+<!-- BOOKINGS -->
 
 <section class="jobs">
 
@@ -172,7 +244,7 @@
       You don't have any bookings yet.
     </p>
 
-    <button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+    <button onclick="showServices()">
       Find a Service
     </button>
 
@@ -184,10 +256,60 @@
 <footer>
 
   <p>© 2026 Good News Campus Connect</p>
-  <p>Connecting students with opportunities.</p>
+
+  <p>
+    Connecting students with opportunities.
+  </p>
 
 </footer>
+
+
 <script>
+
+/* =========================
+   HOME BUTTON
+========================= */
+
+function goHome() {
+
+  window.location.href = "index.html";
+
+}
+
+
+/* =========================
+   FIND SERVICES
+========================= */
+
+function showServices() {
+
+  document
+    .getElementById("services")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   FIND JOBS
+========================= */
+
+function showJobs() {
+
+  document
+    .getElementById("jobs")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   BOOK A SERVICE
+========================= */
 
 function bookService(serviceName) {
 
@@ -198,7 +320,18 @@ function bookService(serviceName) {
 }
 
 
-<script>
+/* =========================
+   VIEW JOBS
+========================= */
+
+function viewJobs() {
+
+  alert("Job vacancies section coming next! 🚀");
+
+}
+
+</script>
+
 
 </body>
   </html>
