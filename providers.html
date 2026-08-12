@@ -161,13 +161,13 @@ query.get()
 
   });
 
-
 function viewProvider(providerId) {
 
   window.location.href =
-    "provider-profile.html?id=" + providerId;
+    "provider-profile.html?id=" +
+    encodeURIComponent(providerId);
 
-}
+  }
 
 </script>
 
