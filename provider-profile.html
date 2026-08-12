@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Provider Profile - Good News Campus Connect</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Provider Profile</p>
+</header>
+
+<section class="hero">
+
+  <div id="profile">
+
+    <h2 id="providerName">Loading...</h2>
+
+    <p>
+      🛠️ Service:
+      <strong id="providerService">Loading...</strong>
+    </p>
+
+    <p>
+      📍 Location:
+      <strong id="providerLocation">Loading...</strong>
+    </p>
+
+    <p>
+      💰 Starting Price:
+      ₦<strong id="providerPrice">0</strong>
+    </p>
+
+    <p id="providerDescription">
+      Loading provider information...
+    </p>
+
+    <button id="bookButton" type="button">
+      📋 Book This Provider
+    </button>
+
+    <br><br>
+
+    <button type="button" onclick="history.back()">
+      ← Back
+    </button>
+
+  </div>
+
+</section>
+
+<footer>
+
+  <p>© 2026 Good News Campus Connect</p>
+  <p>Connecting students with opportunities.</p>
+
+</footer>
+
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
+
+  projectId:
+    "good-news-campus-connect",
+
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
+
+  messagingSenderId:
+    "301910999227",
+
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
+
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+const auth = firebase.auth();
+
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const providerId =
+  params.get("id");
+
+
+if (!providerId) {
+
+  document.getElementById("profile").innerHTML =
+    "<h2>Provider not found.</h2>";
+
+}
+
+
+else {
+
+  db.collection("providers")
+    .doc(providerId)
+    .get()
+
+    .then(function(doc) {
+
+      if (!doc.exists) {
+
+        document.getElementById("profile").innerHTML =
+          "<h2>Provider not found.</h2>";
+
+        return;
+
+      }
+
+
+      const provider = doc.data();
+
+
+      document.getElementById("providerName").textContent =
+        provider.name || "Provider";
+
+
+      document.getElementById("providerService").textContent =
+        provider.service || "Service";
+
+
+      document.getElementById("providerLocation").textContent =
+        provider.location || "Not provided";
+
+
+      document.getElementById("providerPrice").textContent =
+        provider.startingPrice || "0";
+
+
+      document.getElementById("providerDescription").textContent =
+        provider.description || "No description provided.";
+
+
+      document.getElementById("bookButton")
+        .onclick = function() {
+
+          if (!auth.currentUser) {
+
+            alert(
+              "Please create a customer account before booking."
+            );
+
+            window.location.href =
+              "customer.html";
+
+            return;
+
+          }
+
+
+          window.location.href =
+            "booking.html?id=" +
+            encodeURIComponent(providerId);
+
+        };
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+      document.getElementById("profile").innerHTML =
+        "<h2>Unable to load provider.</h2>";
+
+    });
+
+}
+
+</script>
+
+</body>
+  </html>
