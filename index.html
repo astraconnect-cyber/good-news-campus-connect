@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Good News Campus Connect</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,9 +14,7 @@
   <p>Find Services. Find Jobs. Earn While You Study.</p>
 </header>
 
-
 <section class="hero">
-
   <h2>What do you need today?</h2>
 
   <input
@@ -27,20 +23,18 @@
     placeholder="Search for a service..."
   >
 
-  <a href="customer.html">
-    <button>👤 Create Customer Account</button>
-  </a>
+  <button onclick="window.location.href='customer.html'">
+    👤 Create Customer Account
+  </button>
 
   <button onclick="window.location.href='providers.html'">
     🔎 Find a Service
   </button>
 
   <button onclick="window.location.href='provider.html'">
-    👷 Become a Provider
+    🧑‍🔧 Become a Provider
   </button>
-
 </section>
-
 
 <section class="services">
 
@@ -48,199 +42,118 @@
 
   <div class="service-grid">
 
-
-    <!-- LAUNDRY -->
     <div class="service-card">
       🧺
       <h3>Laundry</h3>
       <p>Find reliable laundry providers.</p>
-
-      <a href="providers.html?service=Laundry">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Laundry'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- LAPTOP ENGINEER -->
     <div class="service-card">
       💻
       <h3>Laptop Engineer</h3>
       <p>Repair and maintenance services.</p>
-
-      <a href="providers.html?service=Laptop%20Engineer">
-        <button type="button" onclick="window.location.assign('./providers.html?service=Laptop%20Engineer');">
-  View Services
-        </button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Laptop%20Engineer'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- CLEANING -->
     <div class="service-card">
       🧹
       <h3>Cleaning Services</h3>
       <p>Get your room or apartment cleaned.</p>
-
-      <a href="providers.html?service=Cleaning%20Services">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Cleaning%20Services'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- HAIR DRESSING -->
     <div class="service-card">
       💇
       <h3>Hair Dressing</h3>
       <p>Find hair stylists around campus.</p>
-
-      <a href="providers.html?service=Hair%20Dressing">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Hair%20Dressing'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- NAIL TECHNICIAN -->
     <div class="service-card">
       💅
       <h3>Nail Technician</h3>
       <p>Professional nail services.</p>
-
-      <a href="providers.html?service=Nail%20Technician">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Nail%20Technician'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- PAINTER -->
     <div class="service-card">
       🎨
       <h3>Painter</h3>
       <p>Find painters for your projects.</p>
-
-      <a href="providers.html?service=Painter">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Painter'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- WEBSITE DEVELOPER -->
     <div class="service-card">
       🌐
       <h3>Website Developer</h3>
       <p>Get websites and web applications built.</p>
-
-      <a href="providers.html?service=Website%20Developer">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Website%20Developer'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- ASSIGNMENT RUNS -->
     <div class="service-card">
       📚
       <h3>Assignment Runs</h3>
       <p>Academic support and documentation services.</p>
-
-      <a href="providers.html?service=Assignment%20Runs">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Assignment%20Runs'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- PHONE ENGINEER -->
     <div class="service-card">
       📱
       <h3>Phone Engineer</h3>
       <p>Phone repairs and troubleshooting.</p>
-
-      <a href="providers.html?service=Phone%20Engineer">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Phone%20Engineer'">
+        View Services
+      </button>
     </div>
 
-
-    <!-- GRAPHICS DESIGN -->
     <div class="service-card">
       🖌️
       <h3>Graphics Design</h3>
       <p>Logos, flyers, posters and more.</p>
-
-      <a href="providers.html?service=Graphics%20Design">
-        <button>View Services</button>
-      </a>
+      <button onclick="window.location.href='providers.html?service=Graphics%20Design'">
+        View Services
+      </button>
     </div>
 
-
   </div>
-
 </section>
 
-
 <section class="jobs">
-
   <h2>💼 Job Vacancies</h2>
 
   <div class="job-card">
-
     <h3>Student Job Opportunities</h3>
-
     <p>
-      Find part-time, remote and campus jobs
-      that fit your schedule.
+      Find part-time, remote and campus jobs that fit your schedule.
     </p>
 
     <button onclick="alert('Job vacancies coming soon! 🚀')">
       View Job Vacancies
     </button>
-
   </div>
-
 </section>
 
-
 <footer>
-
   <p>© 2026 Good News Campus Connect</p>
-
-  <p>
-    Connecting students with opportunities.
-  </p>
-
+  <p>Connecting students with opportunities.</p>
 </footer>
-
-
-<script type="module">
-
-  import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-
-  const firebaseConfig = {
-
-    apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
-
-    authDomain:
-      "good-news-campus-connect.firebaseapp.com",
-
-    projectId:
-      "good-news-campus-connect",
-
-    storageBucket:
-      "good-news-campus-connect.firebasestorage.app",
-
-    messagingSenderId:
-      "301910999227",
-
-    appId:
-      "1:301910999227:web:e5a4fb85d33380521c299e"
-
-  };
-
-  initializeApp(firebaseConfig);
-
-</script>
-
-
-<script src="script.js"></script>
 
 </body>
   </html>
