@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Book Provider - Good News Campus Connect</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>🎓 Good News Campus Connect</h1>
+  <p>Book a Service</p>
+</header>
+
+
+<section class="hero">
+
+  <h2>📋 Service Booking</h2>
+
+  <p id="providerInfo">
+    Loading provider...
+  </p>
+
+
+  <form id="bookingForm">
+
+    <input
+      type="text"
+      id="customerName"
+      placeholder="Your Full Name"
+      required
+    >
+
+    <input
+      type="tel"
+      id="customerPhone"
+      placeholder="Phone / WhatsApp Number"
+      required
+    >
+
+    <input
+      type="text"
+      id="location"
+      placeholder="Your Location"
+      required
+    >
+
+    <textarea
+      id="description"
+      placeholder="Describe what you need..."
+      required
+    ></textarea>
+
+
+    <button type="submit">
+      📋 Submit Booking
+    </button>
+
+  </form>
+
+
+  <br>
+
+  <button
+    type="button"
+    onclick="history.back()">
+    ← Back
+  </button>
+
+</section>
+
+
+<footer>
+
+  <p>© 2026 Good News Campus Connect</p>
+
+  <p>
+    Connecting students with opportunities.
+  </p>
+
+</footer>
+
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
+
+  projectId:
+    "good-news-campus-connect",
+
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
+
+  messagingSenderId:
+    "301910999227",
+
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
+
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+
+const db = firebase.firestore();
+
+
+const params =
+  new URLSearchParams(window.location.search);
+
+const providerId =
+  params.get("id");
+
+
+let providerData = null;
+
+
+/* =========================
+   CHECK CUSTOMER LOGIN
+========================= */
+
+auth.onAuthStateChanged(function(user) {
+
+  if (!user) {
+
+    alert(
+      "Please create a customer account before booking."
+    );
+
+    window.location.href =
+      "customer.html";
+
+    return;
+
+  }
+
+});
+
+
+/* =========================
+   LOAD PROVIDER
+========================= */
+
+if (!providerId) {
+
+  document.getElementById("providerInfo").textContent =
+    "Provider information not found.";
+
+}
+
+else {
+
+  db.collection("providers")
+    .doc(providerId)
+    .get()
+
+    .then(function(doc) {
+
+      if (!doc.exists) {
+
+        document.getElementById("providerInfo").textContent =
+          "Provider not found.";
+
+        return;
+
+      }
+
+
+      providerData = doc.data();
+
+
+      document.getElementById("providerInfo").textContent =
+        "You are booking " +
+        (providerData.name || "this provider") +
+        " for " +
+        (providerData.service || "a service") +
+        ".";
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+      document.getElementById("providerInfo").textContent =
+        "Unable to load provider.";
+
+    });
+
+}
+
+
+/* =========================
+   SUBMIT BOOKING
+========================= */
+
+document
+  .getElementById("bookingForm")
+  .addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    const user =
+      auth.currentUser;
+
+
+    if (!user) {
+
+      alert(
+        "Please log in as a customer first."
+      );
+
+      return;
+
+    }
+
+
+    if (!providerData) {
+
+      alert(
+        "Provider information is still loading. Please try again."
+      );
+
+      return;
+
+    }
+
+
+    const customerName =
+      document.getElementById("customerName")
+        .value
+        .trim();
+
+
+    const customerPhone =
+      document.getElementById("customerPhone")
+        .value
+        .trim();
+
+
+    const location =
+      document.getElementById("location")
+        .value
+        .trim();
+
+
+    const description =
+      document.getElementById("description")
+        .value
+        .trim();
+
+
+    db.collection("bookings")
+      .add({
+
+        customerId:
+          user.uid,
+
+        customerName:
+          customerName,
+
+        customerEmail:
+          user.email || "",
+
+        customerPhone:
+          customerPhone,
+
+        providerId:
+          providerId,
+
+        providerName:
+          providerData.name || "",
+
+        service:
+          providerData.service || "",
+
+        providerPhone:
+          providerData.phone || "",
+
+        location:
+          location,
+
+        description:
+          description,
+
+        status:
+          "pending",
+
+        createdAt:
+          firebase.firestore.FieldValue.serverTimestamp()
+
+      })
+
+      .then(function() {
+
+        alert(
+          "Booking submitted successfully! 🎉"
+        );
+
+        window.location.href =
+          "customer-dashboard.html";
+
+      })
+
+      .catch(function(error) {
+
+        console.error(error);
+
+        alert(
+          "Booking failed: " +
+          error.message
+        );
+
+      });
+
+  });
+
+</script>
+
+
+</body>
+  </html>
