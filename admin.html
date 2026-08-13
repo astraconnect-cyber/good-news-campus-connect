@@ -36,6 +36,22 @@
       font-weight: bold;
     }
 
+    .action-buttons {
+      margin-top: 20px;
+    }
+
+    .approve-btn {
+      background: #198754 !important;
+      color: white !important;
+      font-size: 16px;
+    }
+
+    .reject-btn {
+      background: #dc3545 !important;
+      color: white !important;
+      font-size: 16px;
+    }
+
     .logout-btn {
       background: #dc3545;
       color: white;
@@ -75,8 +91,7 @@
   <p>🔐 Admin Dashboard</p>
 </header>
 
-
-<!-- ONLY ONE LOGIN SECTION -->
+<!-- LOGIN -->
 
 <section id="loginSection">
 
@@ -105,7 +120,7 @@
 </section>
 
 
-<!-- ADMIN DASHBOARD -->
+<!-- DASHBOARD -->
 
 <section id="dashboardSection" style="display:none;">
 
@@ -143,11 +158,8 @@
 <!-- FIREBASE -->
 
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
 
 <script>
 
@@ -167,15 +179,11 @@ const firebaseConfig = {
 
 };
 
-
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
-
 const db = firebase.firestore();
 
-
-/* ADMIN EMAILS */
 
 const ADMIN_EMAILS = [
   "chinyereezeugwu1234@gmail.com",
@@ -183,12 +191,17 @@ const ADMIN_EMAILS = [
 ];
 
 
-/* ADMIN LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 function adminLogin() {
 
   const email =
-    document.getElementById("adminEmail").value.trim().toLowerCase();
+    document.getElementById("adminEmail")
+      .value
+      .trim()
+      .toLowerCase();
 
   const password =
     document.getElementById("adminPassword").value;
@@ -196,16 +209,13 @@ function adminLogin() {
   const message =
     document.getElementById("loginMessage");
 
-
   if (!email || !password) {
 
     message.textContent =
       "Please enter your email and password.";
 
     return;
-
   }
-
 
   if (!ADMIN_EMAILS.includes(email)) {
 
@@ -213,12 +223,9 @@ function adminLogin() {
       "Access denied. This email is not an authorized administrator.";
 
     return;
-
   }
 
-
   message.textContent = "Logging in...";
-
 
   auth.signInWithEmailAndPassword(email, password)
 
@@ -230,8 +237,6 @@ function adminLogin() {
 
     .catch(function(error) {
 
-      console.error(error);
-
       message.textContent =
         "Login failed: " + error.message;
 
@@ -240,20 +245,26 @@ function adminLogin() {
 }
 
 
-/* SHOW DASHBOARD */
+/* =========================
+   SHOW DASHBOARD
+========================= */
 
 function showDashboard() {
 
-  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("loginSection")
+    .style.display = "none";
 
-  document.getElementById("dashboardSection").style.display = "block";
+  document.getElementById("dashboardSection")
+    .style.display = "block";
 
   loadBookings();
 
 }
 
 
-/* LOAD BOOKINGS */
+/* =========================
+   LOAD BOOKINGS
+========================= */
 
 function loadBookings() {
 
@@ -261,7 +272,6 @@ function loadBookings() {
     document.getElementById("bookingsList");
 
   list.innerHTML = "Loading bookings...";
-
 
   db.collection("bookings")
     .orderBy("createdAt", "desc")
@@ -271,16 +281,13 @@ function loadBookings() {
 
       list.innerHTML = "";
 
-
       if (snapshot.empty) {
 
         list.innerHTML =
           "<p>🎉 No booking requests yet.</p>";
 
         return;
-
       }
-
 
       snapshot.forEach(function(doc) {
 
@@ -291,10 +298,11 @@ function loadBookings() {
 
         card.className = "booking-card";
 
-
         card.innerHTML = `
 
-          <h3>🛠️ ${booking.service || "Service"}</h3>
+          <h3>
+            🛠️ ${booking.service || "Service"}
+          </h3>
 
           <p>
             <strong>Customer:</strong>
@@ -322,30 +330,34 @@ function loadBookings() {
           </p>
 
           <p>
-  <strong>Status:</strong>
-  <span class="status">
-    ${booking.status || "pending"}
-  </span>
-</p>
+            <strong>Status:</strong>
 
-<div>
-  <button
-    type="button"
-    onclick="approveBooking('${doc.id}')"
-  >
-    ✅ Approve
-  </button>
+            <span class="status">
+              ${booking.status || "pending"}
+            </span>
+          </p>
 
-  <button
-    type="button"
-    onclick="rejectBooking('${doc.id}')"
-  >
-    ❌ Reject
-  </button>
-</div>
+          <div class="action-buttons">
+
+            <button
+              type="button"
+              class="approve-btn"
+              onclick="approveBooking('${doc.id}')"
+            >
+              ✅ APPROVE
+            </button>
+
+            <button
+              type="button"
+              class="reject-btn"
+              onclick="rejectBooking('${doc.id}')"
+            >
+              ❌ REJECT
+            </button>
+
+          </div>
 
         `;
-
 
         list.appendChild(card);
 
@@ -365,14 +377,25 @@ function loadBookings() {
     });
 
 }
+
+
+/* =========================
+   APPROVE
+========================= */
+
 function approveBooking(bookingId) {
 
   db.collection("bookings")
     .doc(bookingId)
     .update({
+
       status: "approved",
-      approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+
+      approvedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
     })
+
     .then(function() {
 
       alert("✅ Booking approved!");
@@ -380,23 +403,36 @@ function approveBooking(bookingId) {
       loadBookings();
 
     })
+
     .catch(function(error) {
 
-      alert("❌ Could not approve booking: " + error.message);
+      alert(
+        "❌ Could not approve booking: " +
+        error.message
+      );
 
     });
 
 }
 
 
+/* =========================
+   REJECT
+========================= */
+
 function rejectBooking(bookingId) {
 
   db.collection("bookings")
     .doc(bookingId)
     .update({
+
       status: "rejected",
-      rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+
+      rejectedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
     })
+
     .then(function() {
 
       alert("❌ Booking rejected.");
@@ -404,15 +440,22 @@ function rejectBooking(bookingId) {
       loadBookings();
 
     })
+
     .catch(function(error) {
 
-      alert("❌ Could not reject booking: " + error.message);
+      alert(
+        "❌ Could not reject booking: " +
+        error.message
+      );
 
     });
 
-  }
+}
 
-/* LOGOUT */
+
+/* =========================
+   LOGOUT
+========================= */
 
 function adminLogout() {
 
@@ -430,13 +473,17 @@ function adminLogout() {
 }
 
 
-/* CHECK IF ALREADY LOGGED IN */
+/* =========================
+   CHECK LOGIN
+========================= */
 
 auth.onAuthStateChanged(function(user) {
 
   if (
     user &&
-    ADMIN_EMAILS.includes(user.email.toLowerCase())
+    ADMIN_EMAILS.includes(
+      user.email.toLowerCase()
+    )
   ) {
 
     showDashboard();
@@ -448,4 +495,4 @@ auth.onAuthStateChanged(function(user) {
 </script>
 
 </body>
-</html>
+  </html>
