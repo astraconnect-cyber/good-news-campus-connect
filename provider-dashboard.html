@@ -7,54 +7,6 @@
   <title>Provider Dashboard - Good News Campus Connect</title>
 
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    .provider-box,
-    .jobs-box {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-    }
-
-    .job-card {
-      background: white;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #1264ff;
-      color: white;
-      font-size: 16px;
-    }
-
-    .logout {
-      background: #dc3545;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: #fff3cd;
-      color: #856404;
-      font-weight: bold;
-    }
-  </style>
 </head>
 
 <body>
@@ -64,8 +16,6 @@
   <p>Provider Dashboard</p>
 </header>
 
-
-<!-- PROVIDER WELCOME -->
 
 <section class="hero">
 
@@ -77,21 +27,15 @@
 
   <div class="buttons">
 
-    <button type="button" onclick="goHome()">
+    <button onclick="window.location.href='index.html'">
       🏠 Home
     </button>
 
-    <button
-      type="button"
-      onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})"
-    >
+    <button onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})">
       👤 My Profile
     </button>
 
-    <button
-      type="button"
-      onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})"
-    >
+    <button onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">
       📋 My Jobs
     </button>
 
@@ -104,58 +48,39 @@
 
 <section class="services" id="profile">
 
-  <div class="provider-box">
+  <h2>👤 My Provider Profile</h2>
 
-    <h2>👤 My Provider Profile</h2>
+  <div class="job-card">
 
-    <div class="job-card">
+    <p>
+      <strong>Name:</strong>
+      <span id="providerName">Loading...</span>
+    </p>
 
-      <p>
-        <strong>Name:</strong>
-        <span id="providerName">Loading...</span>
-      </p>
+    <p>
+      <strong>Email:</strong>
+      <span id="providerEmail">Loading...</span>
+    </p>
 
-      <p>
-        <strong>Email:</strong>
-        <span id="providerEmail">Loading...</span>
-      </p>
+    <p>
+      <strong>Service:</strong>
+      <span id="providerService">Loading...</span>
+    </p>
 
-      <p>
-        <strong>Phone:</strong>
-        <span id="providerPhone">Loading...</span>
-      </p>
+    <p>
+      <strong>Location:</strong>
+      <span id="providerLocation">Loading...</span>
+    </p>
 
-      <p>
-        <strong>University:</strong>
-        <span id="providerUniversity">Loading...</span>
-      </p>
+    <p>
+      <strong>Starting Price:</strong>
+      ₦<span id="providerPrice">Loading...</span>
+    </p>
 
-      <p>
-        <strong>Service:</strong>
-        <span id="providerService">Loading...</span>
-      </p>
-
-      <p>
-        <strong>Location:</strong>
-        <span id="providerLocation">Loading...</span>
-      </p>
-
-      <p>
-        <strong>Starting Price:</strong>
-        ₦<span id="providerPrice">Loading...</span>
-      </p>
-
-      <p>
-        <strong>Description:</strong>
-        <span id="providerDescription">Loading...</span>
-      </p>
-
-      <p>
-        <strong>Status:</strong>
-        <span id="providerStatus">Loading...</span>
-      </p>
-
-    </div>
+    <p>
+      <strong>Description:</strong>
+      <span id="providerDescription">Loading...</span>
+    </p>
 
   </div>
 
@@ -166,18 +91,12 @@
 
 <section class="jobs" id="jobs">
 
-  <div class="jobs-box">
+  <h2>📋 My Customer Requests</h2>
 
-    <h2>📋 Customer Requests</h2>
+  <div id="bookingList">
 
-    <div id="bookingList">
-
-      <div class="job-card">
-        <p id="bookingMessage">
-          Loading customer requests...
-        </p>
-      </div>
-
+    <div class="job-card">
+      <p>Loading customer requests...</p>
     </div>
 
   </div>
@@ -189,7 +108,9 @@
 
   <p>© 2026 Good News Campus Connect</p>
 
-  <p>Connecting students with opportunities.</p>
+  <p>
+    Connecting students with opportunities.
+  </p>
 
 </footer>
 
@@ -203,23 +124,26 @@
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
 
-<!-- ALL JAVASCRIPT MUST STAY INSIDE THIS SCRIPT -->
-
 <script>
 
 const firebaseConfig = {
 
   apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
 
-  authDomain: "good-news-campus-connect.firebaseapp.com",
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
 
-  projectId: "good-news-campus-connect",
+  projectId:
+    "good-news-campus-connect",
 
-  storageBucket: "good-news-campus-connect.firebasestorage.app",
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
 
-  messagingSenderId: "301910999227",
+  messagingSenderId:
+    "301910999227",
 
-  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
 
 };
 
@@ -232,18 +156,7 @@ const db = firebase.firestore();
 
 
 /* =========================
-   HOME BUTTON
-========================= */
-
-function goHome() {
-
-  window.location.href = "index.html";
-
-}
-
-
-/* =========================
-   CHECK PROVIDER LOGIN
+   AUTHENTICATION
 ========================= */
 
 auth.onAuthStateChanged(function(user) {
@@ -256,16 +169,13 @@ auth.onAuthStateChanged(function(user) {
 
   }
 
-  loadProviderProfile(user);
 
-});
+  console.log("Provider logged in:", user.uid);
 
 
-/* =========================
-   LOAD PROVIDER PROFILE
-========================= */
-
-function loadProviderProfile(user) {
+  /* =========================
+     LOAD PROVIDER PROFILE
+  ========================= */
 
   db.collection("providers")
     .doc(user.uid)
@@ -275,11 +185,7 @@ function loadProviderProfile(user) {
 
       if (!doc.exists) {
 
-        document.getElementById("providerName").textContent =
-          "Provider profile not found";
-
-        document.getElementById("bookingMessage").textContent =
-          "Provider profile not found.";
+        alert("Provider profile not found.");
 
         return;
 
@@ -290,61 +196,65 @@ function loadProviderProfile(user) {
 
 
       document.getElementById("providerName").textContent =
-        provider.name || "Not provided";
+        provider.name || "";
 
       document.getElementById("providerEmail").textContent =
-        provider.email || user.email || "Not provided";
-
-      document.getElementById("providerPhone").textContent =
-        provider.phone || "Not provided";
-
-      document.getElementById("providerUniversity").textContent =
-        provider.university || "Not provided";
+        provider.email || user.email || "";
 
       document.getElementById("providerService").textContent =
-        provider.service || "Not provided";
+        provider.service || "";
 
       document.getElementById("providerLocation").textContent =
-        provider.location || "Not provided";
+        provider.location || "";
 
       document.getElementById("providerPrice").textContent =
         provider.startingPrice || "0";
 
       document.getElementById("providerDescription").textContent =
-        provider.description || "No description";
-
-      document.getElementById("providerStatus").textContent =
-        provider.status || "Available";
+        provider.description || "";
 
 
-      loadCustomerRequests(user.uid, provider.service);
+      /* Load this provider's jobs */
+
+      loadProviderJobs(user.uid);
 
     })
 
     .catch(function(error) {
 
-      console.error("Profile error:", error);
+      console.error("Error loading provider:", error);
 
-      document.getElementById("providerName").textContent =
-        "Unable to load profile";
+      document.getElementById("bookingList").innerHTML =
+        "<div class='job-card'><p>❌ Could not load your profile.</p></div>";
 
     });
 
-}
+});
 
 
 /* =========================
-   LOAD CUSTOMER REQUESTS
+   LOAD PROVIDER JOBS
 ========================= */
 
-function loadCustomerRequests(providerId, providerService) {
+function loadProviderJobs(providerId) {
 
   const bookingList =
     document.getElementById("bookingList");
 
 
+  bookingList.innerHTML = `
+    <div class="job-card">
+      <p>Loading customer requests...</p>
+    </div>
+  `;
+
+
   db.collection("bookings")
+
     .where("providerId", "==", providerId)
+
+    .where("status", "==", "approved")
+
     .get()
 
     .then(function(snapshot) {
@@ -356,9 +266,13 @@ function loadCustomerRequests(providerId, providerService) {
 
         bookingList.innerHTML = `
           <div class="job-card">
+
+            <h3>📭 No Approved Jobs Yet</h3>
+
             <p>
-              You don't have any customer requests yet.
+              You don't have any approved customer requests yet.
             </p>
+
           </div>
         `;
 
@@ -375,44 +289,51 @@ function loadCustomerRequests(providerId, providerService) {
         const card =
           document.createElement("div");
 
+
         card.className = "job-card";
 
 
         card.innerHTML = `
 
-          <h3>
-            🛠️ ${booking.service || providerService || "Service"}
-          </h3>
+          <h3>🛠️ ${booking.service || "Service Request"}</h3>
+
+          <hr>
 
           <p>
-            <strong>Customer:</strong>
+            <strong>👤 Customer:</strong>
             ${booking.customerName || "Not provided"}
           </p>
 
           <p>
-            <strong>Phone:</strong>
+            <strong>📞 Phone:</strong>
             ${booking.customerPhone || "Not provided"}
           </p>
 
           <p>
-            <strong>Email:</strong>
+            <strong>📧 Email:</strong>
             ${booking.customerEmail || "Not provided"}
           </p>
 
           <p>
-            <strong>Location:</strong>
+            <strong>📍 Location:</strong>
             ${booking.location || "Not provided"}
           </p>
 
           <p>
-            <strong>Description:</strong>
+            <strong>📝 Request:</strong>
             ${booking.description || "No description"}
           </p>
 
           <p>
-            <strong>Status:</strong>
-            <span class="status">
-              ${booking.status || "pending"}
+            <strong>📌 Status:</strong>
+            <span style="
+              background:#d4edda;
+              color:#155724;
+              padding:6px 12px;
+              border-radius:20px;
+              font-weight:bold;
+            ">
+              ${booking.status || "approved"}
             </span>
           </p>
 
@@ -427,15 +348,14 @@ function loadCustomerRequests(providerId, providerService) {
 
     .catch(function(error) {
 
-      console.error("Bookings error:", error);
+      console.error("Error loading bookings:", error);
+
 
       bookingList.innerHTML = `
 
         <div class="job-card">
 
-          <p>
-            ❌ Unable to load customer requests.
-          </p>
+          <h3>❌ Could Not Load Jobs</h3>
 
           <p>
             ${error.message}
