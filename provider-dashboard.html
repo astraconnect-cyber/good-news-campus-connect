@@ -102,11 +102,207 @@ const db = firebase.firestore();
 
 auth.onAuthStateChanged(function(user) {
 
+ <script>
+
+auth.onAuthStateChanged(function(user) {
+
   if (!user) {
+
     window.location.href = "provider.html";
     return;
+
   }
 
+  console.log("Logged in provider UID:", user.uid);
+  console.log("Logged in provider email:", user.email);
+
+
+  // First try the provider's UID
+  db.collection("providers")
+    .doc(user.uid)
+    .get()
+
+    .then(function(doc) {
+
+      if (doc.exists) {
+
+        loadProviderProfile(doc.data());
+        return;
+
+      }
+
+
+      // If UID document isn't found,
+      // search using the provider's email
+      return db.collection("providers")
+        .where("email", "==", user.email)
+        .limit(1)
+        .get()
+
+        .then(function(snapshot) {
+
+          if (snapshot.empty) {
+
+            throw new Error(
+              "Your provider profile was not found in Firestore."
+            );
+
+          }
+
+          const providerDoc = snapshot.docs[0];
+
+          loadProviderProfile(providerDoc.data());
+
+        });
+
+    })
+
+    .catch(function(error) {
+
+      console.error("Provider loading error:", error);
+
+      document.getElementById("providerName").textContent =
+        "Error";
+
+      document.getElementById("providerEmail").textContent =
+        error.message;
+
+      document.getElementById("providerService").textContent =
+        "-";
+
+      document.getElementById("providerLocation").textContent =
+        "-";
+
+      document.getElementById("providerPrice").textContent =
+        "-";
+
+      document.getElementById("providerDescription").textContent =
+        "-";
+
+    });
+
+});
+
+
+function loadProviderProfile(provider) {
+
+  document.getElementById("providerName").textContent =
+    provider.name || "Not provided";
+
+  document.getElementById("providerEmail").textContent =
+    provider.email || "Not provided";
+
+  document.getElementById("providerService").textContent =
+    provider.service || "Not provided";
+
+  document.getElementById("providerLocation").textContent =
+    provider.location || "Not provided";
+
+  document.getElementById("providerPrice").textContent =
+    provider.startingPrice || "0";
+
+  document.getElementById("providerDescription").textContent =
+    provider.description || "Not provided";
+
+
+  // Now load approved jobs
+  loadApprovedJobs(provider.service);
+
+}
+
+
+function loadApprovedJobs(providerService) {
+
+  const bookingMessage =
+    document.getElementById("bookingMessage");
+
+  bookingMessage.textContent =
+    "Checking for approved jobs...";
+
+
+  db.collection("bookings")
+    .where("status", "==", "approved")
+    .where("service", "==", providerService)
+    .get()
+
+    .then(function(snapshot) {
+
+      bookingMessage.innerHTML = "";
+
+      if (snapshot.empty) {
+
+        bookingMessage.innerHTML =
+          "🎉 No approved customer requests yet.";
+
+        return;
+
+      }
+
+
+      snapshot.forEach(function(doc) {
+
+        const booking = doc.data();
+
+        const card =
+          document.createElement("div");
+
+        card.className = "job-card";
+
+        card.innerHTML = `
+
+          <h3>🛠️ ${booking.service || "Service Request"}</h3>
+
+          <p>
+            <strong>Customer:</strong>
+            ${booking.customerName || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${booking.customerPhone || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            ${booking.customerEmail || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Location:</strong>
+            ${booking.location || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Description:</strong>
+            ${booking.description || "No description"}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            ✅ Approved
+          </p>
+
+        `;
+
+        bookingMessage.appendChild(card);
+
+      });
+
+    })
+
+    .catch(function(error) {
+
+      console.error("Jobs error:", error);
+
+      bookingMessage.innerHTML =
+        "❌ Jobs could not be loaded: " +
+        error.message;
+
+    });
+
+}
+
+</script> 
   // Load provider profile
   db.collection("providers")
     .doc(user.uid)
