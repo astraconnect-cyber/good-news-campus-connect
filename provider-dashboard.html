@@ -7,6 +7,54 @@
   <title>Provider Dashboard - Good News Campus Connect</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .provider-box,
+    .jobs-box {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .job-card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #1264ff;
+      color: white;
+      font-size: 16px;
+    }
+
+    .logout {
+      background: #dc3545;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #fff3cd;
+      color: #856404;
+      font-weight: bold;
+    }
+  </style>
 </head>
 
 <body>
@@ -15,6 +63,9 @@
   <h1>🎓 Good News Campus Connect</h1>
   <p>Provider Dashboard</p>
 </header>
+
+
+<!-- PROVIDER WELCOME -->
 
 <section class="hero">
 
@@ -26,15 +77,21 @@
 
   <div class="buttons">
 
-    <button onclick="window.location.href='index.html'">
+    <button type="button" onclick="goHome()">
       🏠 Home
     </button>
 
-    <button onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})">
+    <button
+      type="button"
+      onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})"
+    >
       👤 My Profile
     </button>
 
-    <button onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">
+    <button
+      type="button"
+      onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})"
+    >
       📋 My Jobs
     </button>
 
@@ -43,38 +100,85 @@
 </section>
 
 
+<!-- PROVIDER PROFILE -->
+
 <section class="services" id="profile">
 
-  <h2>👤 My Provider Profile</h2>
+  <div class="provider-box">
 
-  <div class="job-card">
+    <h2>👤 My Provider Profile</h2>
 
-    <p><strong>Name:</strong> <span id="providerName">Loading...</span></p>
+    <div class="job-card">
 
-    <p><strong>Email:</strong> <span id="providerEmail">Loading...</span></p>
+      <p>
+        <strong>Name:</strong>
+        <span id="providerName">Loading...</span>
+      </p>
 
-    <p><strong>Service:</strong> <span id="providerService">Loading...</span></p>
+      <p>
+        <strong>Email:</strong>
+        <span id="providerEmail">Loading...</span>
+      </p>
 
-    <p><strong>Location:</strong> <span id="providerLocation">Loading...</span></p>
+      <p>
+        <strong>Phone:</strong>
+        <span id="providerPhone">Loading...</span>
+      </p>
 
-    <p><strong>Starting Price:</strong> ₦<span id="providerPrice">Loading...</span></p>
+      <p>
+        <strong>University:</strong>
+        <span id="providerUniversity">Loading...</span>
+      </p>
 
-    <p><strong>Description:</strong> <span id="providerDescription">Loading...</span></p>
+      <p>
+        <strong>Service:</strong>
+        <span id="providerService">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Location:</strong>
+        <span id="providerLocation">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Starting Price:</strong>
+        ₦<span id="providerPrice">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Description:</strong>
+        <span id="providerDescription">Loading...</span>
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        <span id="providerStatus">Loading...</span>
+      </p>
+
+    </div>
 
   </div>
 
 </section>
 
 
+<!-- CUSTOMER JOBS -->
+
 <section class="jobs" id="jobs">
 
-  <h2>📋 Customer Requests</h2>
+  <div class="jobs-box">
 
-  <div class="job-card">
+    <h2>📋 Customer Requests</h2>
 
-    <p id="bookingMessage">
-      You don't have any customer requests yet.
-    </p>
+    <div id="bookingList">
+
+      <div class="job-card">
+        <p id="bookingMessage">
+          Loading customer requests...
+        </p>
+      </div>
+
+    </div>
 
   </div>
 
@@ -83,227 +187,86 @@
 
 <footer>
 
+  <p>© 2026 Good News Campus Connect</p>
+
+  <p>Connecting students with opportunities.</p>
+
+</footer>
+
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<!-- ALL JAVASCRIPT MUST STAY INSIDE THIS SCRIPT -->
 
 <script>
 
 const firebaseConfig = {
+
   apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+
   authDomain: "good-news-campus-connect.firebaseapp.com",
+
   projectId: "good-news-campus-connect",
+
   storageBucket: "good-news-campus-connect.firebasestorage.app",
+
   messagingSenderId: "301910999227",
+
   appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
+
 const db = firebase.firestore();
 
-auth.onAuthStateChanged(function(user) {
 
- <script>
+/* =========================
+   HOME BUTTON
+========================= */
+
+function goHome() {
+
+  window.location.href = "index.html";
+
+}
+
+
+/* =========================
+   CHECK PROVIDER LOGIN
+========================= */
 
 auth.onAuthStateChanged(function(user) {
 
   if (!user) {
 
     window.location.href = "provider.html";
+
     return;
 
   }
 
-  console.log("Logged in provider UID:", user.uid);
-  console.log("Logged in provider email:", user.email);
-
-
-  // First try the provider's UID
-  db.collection("providers")
-    .doc(user.uid)
-    .get()
-
-    .then(function(doc) {
-
-      if (doc.exists) {
-
-        loadProviderProfile(doc.data());
-        return;
-
-      }
-
-
-      // If UID document isn't found,
-      // search using the provider's email
-      return db.collection("providers")
-        .where("email", "==", user.email)
-        .limit(1)
-        .get()
-
-        .then(function(snapshot) {
-
-          if (snapshot.empty) {
-
-            throw new Error(
-              "Your provider profile was not found in Firestore."
-            );
-
-          }
-
-          const providerDoc = snapshot.docs[0];
-
-          loadProviderProfile(providerDoc.data());
-
-        });
-
-    })
-
-    .catch(function(error) {
-
-      console.error("Provider loading error:", error);
-
-      document.getElementById("providerName").textContent =
-        "Error";
-
-      document.getElementById("providerEmail").textContent =
-        error.message;
-
-      document.getElementById("providerService").textContent =
-        "-";
-
-      document.getElementById("providerLocation").textContent =
-        "-";
-
-      document.getElementById("providerPrice").textContent =
-        "-";
-
-      document.getElementById("providerDescription").textContent =
-        "-";
-
-    });
+  loadProviderProfile(user);
 
 });
 
 
-function loadProviderProfile(provider) {
+/* =========================
+   LOAD PROVIDER PROFILE
+========================= */
 
-  document.getElementById("providerName").textContent =
-    provider.name || "Not provided";
+function loadProviderProfile(user) {
 
-  document.getElementById("providerEmail").textContent =
-    provider.email || "Not provided";
-
-  document.getElementById("providerService").textContent =
-    provider.service || "Not provided";
-
-  document.getElementById("providerLocation").textContent =
-    provider.location || "Not provided";
-
-  document.getElementById("providerPrice").textContent =
-    provider.startingPrice || "0";
-
-  document.getElementById("providerDescription").textContent =
-    provider.description || "Not provided";
-
-
-  // Now load approved jobs
-  loadApprovedJobs(provider.service);
-
-}
-
-
-function loadApprovedJobs(providerService) {
-
-  const bookingMessage =
-    document.getElementById("bookingMessage");
-
-  bookingMessage.textContent =
-    "Checking for approved jobs...";
-
-
-  db.collection("bookings")
-    .where("status", "==", "approved")
-    .where("service", "==", providerService)
-    .get()
-
-    .then(function(snapshot) {
-
-      bookingMessage.innerHTML = "";
-
-      if (snapshot.empty) {
-
-        bookingMessage.innerHTML =
-          "🎉 No approved customer requests yet.";
-
-        return;
-
-      }
-
-
-      snapshot.forEach(function(doc) {
-
-        const booking = doc.data();
-
-        const card =
-          document.createElement("div");
-
-        card.className = "job-card";
-
-        card.innerHTML = `
-
-          <h3>🛠️ ${booking.service || "Service Request"}</h3>
-
-          <p>
-            <strong>Customer:</strong>
-            ${booking.customerName || "Not provided"}
-          </p>
-
-          <p>
-            <strong>Phone:</strong>
-            ${booking.customerPhone || "Not provided"}
-          </p>
-
-          <p>
-            <strong>Email:</strong>
-            ${booking.customerEmail || "Not provided"}
-          </p>
-
-          <p>
-            <strong>Location:</strong>
-            ${booking.location || "Not provided"}
-          </p>
-
-          <p>
-            <strong>Description:</strong>
-            ${booking.description || "No description"}
-          </p>
-
-          <p>
-            <strong>Status:</strong>
-            ✅ Approved
-          </p>
-
-        `;
-
-        bookingMessage.appendChild(card);
-
-      });
-
-    })
-
-    .catch(function(error) {
-
-      console.error("Jobs error:", error);
-
-      bookingMessage.innerHTML =
-        "❌ Jobs could not be loaded: " +
-        error.message;
-
-    });
-
-}
-
-</script> 
-  // Load provider profile
   db.collection("providers")
     .doc(user.uid)
     .get()
@@ -311,91 +274,115 @@ function loadApprovedJobs(providerService) {
     .then(function(doc) {
 
       if (!doc.exists) {
+
+        document.getElementById("providerName").textContent =
+          "Provider profile not found";
+
         document.getElementById("bookingMessage").textContent =
           "Provider profile not found.";
+
         return;
+
       }
+
 
       const provider = doc.data();
 
-      // Show profile
+
       document.getElementById("providerName").textContent =
-        provider.name || "";
+        provider.name || "Not provided";
 
       document.getElementById("providerEmail").textContent =
-        provider.email || user.email || "";
+        provider.email || user.email || "Not provided";
+
+      document.getElementById("providerPhone").textContent =
+        provider.phone || "Not provided";
+
+      document.getElementById("providerUniversity").textContent =
+        provider.university || "Not provided";
 
       document.getElementById("providerService").textContent =
-        provider.service || "";
+        provider.service || "Not provided";
 
       document.getElementById("providerLocation").textContent =
-        provider.location || "";
+        provider.location || "Not provided";
 
       document.getElementById("providerPrice").textContent =
         provider.startingPrice || "0";
 
       document.getElementById("providerDescription").textContent =
-        provider.description || "";
+        provider.description || "No description";
 
-      // Load approved jobs for this provider's service
-      loadApprovedJobs(provider.service);
+      document.getElementById("providerStatus").textContent =
+        provider.status || "Available";
+
+
+      loadCustomerRequests(user.uid, provider.service);
 
     })
 
     .catch(function(error) {
 
-      console.error("Error loading provider:", error);
+      console.error("Profile error:", error);
 
-      document.getElementById("bookingMessage").textContent =
-        "Unable to load your provider profile.";
+      document.getElementById("providerName").textContent =
+        "Unable to load profile";
 
     });
 
-});
+}
 
 
-function loadApprovedJobs(providerService) {
+/* =========================
+   LOAD CUSTOMER REQUESTS
+========================= */
 
-  const bookingMessage =
-    document.getElementById("bookingMessage");
+function loadCustomerRequests(providerId, providerService) {
 
-  if (!providerService) {
+  const bookingList =
+    document.getElementById("bookingList");
 
-    bookingMessage.textContent =
-      "Your provider service has not been set.";
-
-    return;
-  }
 
   db.collection("bookings")
-    .where("status", "==", "approved")
-    .where("service", "==", providerService)
+    .where("providerId", "==", providerId)
     .get()
 
     .then(function(snapshot) {
 
-      bookingMessage.innerHTML = "";
+      bookingList.innerHTML = "";
+
 
       if (snapshot.empty) {
 
-        bookingMessage.innerHTML =
-          "🎉 No approved customer requests for your service yet.";
+        bookingList.innerHTML = `
+          <div class="job-card">
+            <p>
+              You don't have any customer requests yet.
+            </p>
+          </div>
+        `;
 
         return;
+
       }
+
 
       snapshot.forEach(function(doc) {
 
         const booking = doc.data();
+
 
         const card =
           document.createElement("div");
 
         card.className = "job-card";
 
+
         card.innerHTML = `
 
-          <h3>🛠️ ${booking.service || "Service Request"}</h3>
+          <h3>
+            🛠️ ${booking.service || providerService || "Service"}
+          </h3>
 
           <p>
             <strong>Customer:</strong>
@@ -425,13 +412,14 @@ function loadApprovedJobs(providerService) {
           <p>
             <strong>Status:</strong>
             <span class="status">
-              ✅ Approved
+              ${booking.status || "pending"}
             </span>
           </p>
 
         `;
 
-        bookingMessage.appendChild(card);
+
+        bookingList.appendChild(card);
 
       });
 
@@ -439,15 +427,29 @@ function loadApprovedJobs(providerService) {
 
     .catch(function(error) {
 
-      console.error("Error loading approved jobs:", error);
+      console.error("Bookings error:", error);
 
-      bookingMessage.innerHTML =
-        "<p>❌ Unable to load approved jobs.</p>";
+      bookingList.innerHTML = `
+
+        <div class="job-card">
+
+          <p>
+            ❌ Unable to load customer requests.
+          </p>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+
+      `;
 
     });
 
 }
 
 </script>
+
 </body>
   </html>
