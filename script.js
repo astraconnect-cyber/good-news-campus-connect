@@ -1,44 +1,71 @@
 function findServices() {
-  document.querySelector(".services").scrollIntoView({
-    behavior: "smooth"
-  });
+  const services = document.querySelector(".services");
+
+  if (services) {
+    services.scrollIntoView({
+      behavior: "smooth"
+    });
+  }
 }
 
+
 function becomeProvider() {
-  alert(
-    "Welcome to Good News Campus Connect!\
-n\
-nProvider registration will be available soon."
-  );
+  window.location.href = "provider.html";
 }
+
+
+function openAdmin() {
+  window.location.href = "admin.html";
+}
+
 
 const searchInput = document.getElementById("search");
 
-searchInput.addEventListener("input", function () {
+if (searchInput) {
 
-  const searchText = searchInput.value.toLowerCase();
+  searchInput.addEventListener("input", function () {
 
-  const cards = document.querySelectorAll(".service-card");
+    const searchText =
+      searchInput.value.toLowerCase();
 
-  cards.forEach(function (card) {
+    const cards =
+      document.querySelectorAll(".service-card");
 
-    const serviceName =
-      card.querySelector("h3").textContent.toLowerCase();
+    cards.forEach(function (card) {
 
-    if (serviceName.includes(searchText)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
+      const title =
+        card.querySelector("h3");
+
+      if (!title) return;
+
+      const serviceName =
+        title.textContent.toLowerCase();
+
+      if (serviceName.includes(searchText)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+
+    });
 
   });
 
-});function createCustomer(event) {
+}
+
+
+function createCustomer(event) {
+
   event.preventDefault();
 
-  const name = document.getElementById("customerName").value;
+  const name =
+    document.getElementById("customerName").value.trim();
 
-  localStorage.setItem("customerName", name);
+  localStorage.setItem(
+    "customerName",
+    name
+  );
 
-  window.location.href = "customer-dashboard.html";
-                             }
+  window.location.href =
+    "customer-dashboard.html";
+        }
