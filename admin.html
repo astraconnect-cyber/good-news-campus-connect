@@ -322,11 +322,27 @@ function loadBookings() {
           </p>
 
           <p>
-            <strong>Status:</strong>
-            <span class="status">
-              ${booking.status || "pending"}
-            </span>
-          </p>
+  <strong>Status:</strong>
+  <span class="status">
+    ${booking.status || "pending"}
+  </span>
+</p>
+
+<div>
+  <button
+    type="button"
+    onclick="approveBooking('${doc.id}')"
+  >
+    ✅ Approve
+  </button>
+
+  <button
+    type="button"
+    onclick="rejectBooking('${doc.id}')"
+  >
+    ❌ Reject
+  </button>
+</div>
 
         `;
 
@@ -349,7 +365,52 @@ function loadBookings() {
     });
 
 }
+function approveBooking(bookingId) {
 
+  db.collection("bookings")
+    .doc(bookingId)
+    .update({
+      status: "approved",
+      approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function() {
+
+      alert("✅ Booking approved!");
+
+      loadBookings();
+
+    })
+    .catch(function(error) {
+
+      alert("❌ Could not approve booking: " + error.message);
+
+    });
+
+}
+
+
+function rejectBooking(bookingId) {
+
+  db.collection("bookings")
+    .doc(bookingId)
+    .update({
+      status: "rejected",
+      rejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(function() {
+
+      alert("❌ Booking rejected.");
+
+      loadBookings();
+
+    })
+    .catch(function(error) {
+
+      alert("❌ Could not reject booking: " + error.message);
+
+    });
+
+  }
 
 /* LOGOUT */
 
