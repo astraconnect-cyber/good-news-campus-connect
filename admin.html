@@ -184,7 +184,10 @@ const db = firebase.firestore();
  for the ADMIN account.
 */
 
-const ADMIN_EMAIL = "chinyereezeugwu1234@gmail.com";
+const ADMIN_EMAILS = [
+  "chinyereezeugwu1234@gmail.com",
+  "astraconnect4@gmail.com"
+];@gmail.com";
 
 
 /* =========================
@@ -200,7 +203,7 @@ function adminLogin() {
     document.getElementById("adminPassword").value;
 
 
-  if (email !== ADMIN_EMAIL) {
+  if (!ADMIN_EMAILS.includes(email)) {
 
     document.getElementById("loginMessage").textContent =
       "Access denied. This account is not the administrator.";
@@ -371,12 +374,11 @@ function adminLogout() {
    CHECK LOGIN
 ========================= */
 
-auth.onAuthStateChanged(function(user) {
-
-  if (
-    user &&
-    user.email === ADMIN_EMAIL
-  ) {
+auth.onAuthStateChanged(function(user) {  
+if (
+  user &&
+  ADMIN_EMAILS.includes(user.email)
+) { 
 
     showDashboard();
 
