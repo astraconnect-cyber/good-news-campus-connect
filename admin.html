@@ -56,7 +56,6 @@
       margin: 10px auto;
       border-radius: 8px;
       border: 1px solid #ccc;
-      box-sizing: border-box;
     }
 
     button {
@@ -65,9 +64,6 @@
       border-radius: 8px;
       cursor: pointer;
       margin: 5px;
-      background: #0d5be1;
-      color: white;
-      font-size: 16px;
     }
   </style>
 </head>
@@ -80,17 +76,13 @@
 </header>
 
 
-<!-- =========================
-     ADMIN LOGIN
-========================= -->
+<!-- ONLY ONE LOGIN SECTION -->
 
 <section id="loginSection">
 
   <h2>🔐 Admin Login</h2>
 
-  <p>
-    Only authorized administrators can access this area.
-  </p>
+  <p>Only authorized administrators can access job requests.</p>
 
   <input
     type="email"
@@ -113,9 +105,7 @@
 </section>
 
 
-<!-- =========================
-     ADMIN DASHBOARD
-========================= -->
+<!-- ADMIN DASHBOARD -->
 
 <section id="dashboardSection" style="display:none;">
 
@@ -130,8 +120,9 @@
     <button
       type="button"
       class="logout-btn"
-      onclick="adminLogout()">
-      🚪 Logout
+      onclick="adminLogout()"
+    >
+      Logout
     </button>
 
     <div id="bookingsList">
@@ -144,17 +135,12 @@
 
 
 <footer>
-
   <p>© 2026 Good News Campus Connect</p>
-
   <p>Connecting students with opportunities.</p>
-
 </footer>
 
 
-<!-- =========================
-     FIREBASE
-========================= -->
+<!-- FIREBASE -->
 
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
 
@@ -169,25 +155,19 @@ const firebaseConfig = {
 
   apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
 
-  authDomain:
-    "good-news-campus-connect.firebaseapp.com",
+  authDomain: "good-news-campus-connect.firebaseapp.com",
 
-  projectId:
-    "good-news-campus-connect",
+  projectId: "good-news-campus-connect",
 
-  storageBucket:
-    "good-news-campus-connect.firebasestorage.app",
+  storageBucket: "good-news-campus-connect.firebasestorage.app",
 
-  messagingSenderId:
-    "301910999227",
+  messagingSenderId: "301910999227",
 
-  appId:
-    "1:301910999227:web:e5a4fb85d33380521c299e"
+  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
 
 };
 
 
-// Start Firebase
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
@@ -195,9 +175,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 
-// =========================
-// ADMIN EMAILS
-// =========================
+/* ADMIN EMAILS */
 
 const ADMIN_EMAILS = [
   "chinyereezeugwu1234@gmail.com",
@@ -205,9 +183,7 @@ const ADMIN_EMAILS = [
 ];
 
 
-// =========================
-// ADMIN LOGIN
-// =========================
+/* ADMIN LOGIN */
 
 function adminLogin() {
 
@@ -227,26 +203,26 @@ function adminLogin() {
       "Please enter your email and password.";
 
     return;
+
   }
 
 
   if (!ADMIN_EMAILS.includes(email)) {
 
     message.textContent =
-      "❌ Access denied. This account is not an administrator.";
+      "Access denied. This email is not an authorized administrator.";
 
     return;
+
   }
 
 
-  message.textContent = "🔄 Logging in...";
+  message.textContent = "Logging in...";
 
 
   auth.signInWithEmailAndPassword(email, password)
 
     .then(function() {
-
-      message.textContent = "";
 
       showDashboard();
 
@@ -257,41 +233,34 @@ function adminLogin() {
       console.error(error);
 
       message.textContent =
-        "❌ Login failed: " + error.message;
+        "Login failed: " + error.message;
 
     });
 
 }
 
 
-// =========================
-// SHOW DASHBOARD
-// =========================
+/* SHOW DASHBOARD */
 
 function showDashboard() {
 
-  document.getElementById("loginSection")
-    .style.display = "none";
+  document.getElementById("loginSection").style.display = "none";
 
-  document.getElementById("dashboardSection")
-    .style.display = "block";
+  document.getElementById("dashboardSection").style.display = "block";
 
   loadBookings();
 
 }
 
 
-// =========================
-// LOAD BOOKINGS
-// =========================
+/* LOAD BOOKINGS */
 
 function loadBookings() {
 
   const list =
     document.getElementById("bookingsList");
 
-  list.innerHTML =
-    "<p>🔄 Loading booking requests...</p>";
+  list.innerHTML = "Loading bookings...";
 
 
   db.collection("bookings")
@@ -309,6 +278,7 @@ function loadBookings() {
           "<p>🎉 No booking requests yet.</p>";
 
         return;
+
       }
 
 
@@ -316,19 +286,15 @@ function loadBookings() {
 
         const booking = doc.data();
 
-
         const card =
           document.createElement("div");
 
-        card.className =
-          "booking-card";
+        card.className = "booking-card";
 
 
         card.innerHTML = `
 
-          <h3>
-            🛠️ ${booking.service || "Service"}
-          </h3>
+          <h3>🛠️ ${booking.service || "Service"}</h3>
 
           <p>
             <strong>Customer:</strong>
@@ -357,7 +323,6 @@ function loadBookings() {
 
           <p>
             <strong>Status:</strong>
-
             <span class="status">
               ${booking.status || "pending"}
             </span>
@@ -377,22 +342,20 @@ function loadBookings() {
       console.error(error);
 
       list.innerHTML =
-        "<p>❌ Could not load bookings.</p>" +
-        "<p>" + error.message + "</p>";
+        "<p>❌ Could not load bookings: " +
+        error.message +
+        "</p>";
 
     });
 
 }
 
 
-// =========================
-// LOGOUT
-// =========================
+/* LOGOUT */
 
 function adminLogout() {
 
   auth.signOut()
-
     .then(function() {
 
       document.getElementById("dashboardSection")
@@ -401,25 +364,18 @@ function adminLogout() {
       document.getElementById("loginSection")
         .style.display = "block";
 
-      document.getElementById("adminPassword")
-        .value = "";
-
     });
 
 }
 
 
-// =========================
-// CHECK LOGIN
-// =========================
+/* CHECK IF ALREADY LOGGED IN */
 
 auth.onAuthStateChanged(function(user) {
 
   if (
     user &&
-    ADMIN_EMAILS.includes(
-      user.email.toLowerCase()
-    )
+    ADMIN_EMAILS.includes(user.email.toLowerCase())
   ) {
 
     showDashboard();
