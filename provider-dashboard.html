@@ -83,18 +83,6 @@
 
 <footer>
 
-  <p>© 2026 Good News Campus Connect</p>
-  <p>Connecting students with opportunities.</p>
-
-</footer>
-
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
 
 <script>
 
@@ -112,47 +100,49 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-
 auth.onAuthStateChanged(function(user) {
 
   if (!user) {
-
     window.location.href = "provider.html";
-
     return;
-
   }
 
-
+  // Load provider profile
   db.collection("providers")
     .doc(user.uid)
     .get()
 
     .then(function(doc) {
 
-      if (doc.exists) {
-
-        const provider = doc.data();
-
-        document.getElementById("providerName").textContent =
-          provider.name || "";
-
-        document.getElementById("providerEmail").textContent =
-          provider.email || "";
-
-        document.getElementById("providerService").textContent =
-          provider.service || "";
-
-        document.getElementById("providerLocation").textContent =
-          provider.location || "";
-
-        document.getElementById("providerPrice").textContent =
-          provider.startingPrice || "0";
-
-        document.getElementById("providerDescription").textContent =
-          provider.description || "";
-
+      if (!doc.exists) {
+        document.getElementById("bookingMessage").textContent =
+          "Provider profile not found.";
+        return;
       }
+
+      const provider = doc.data();
+
+      // Show profile
+      document.getElementById("providerName").textContent =
+        provider.name || "";
+
+      document.getElementById("providerEmail").textContent =
+        provider.email || user.email || "";
+
+      document.getElementById("providerService").textContent =
+        provider.service || "";
+
+      document.getElementById("providerLocation").textContent =
+        provider.location || "";
+
+      document.getElementById("providerPrice").textContent =
+        provider.startingPrice || "0";
+
+      document.getElementById("providerDescription").textContent =
+        provider.description || "";
+
+      // Load approved jobs for this provider's service
+      loadApprovedJobs(provider.service);
 
     })
 
@@ -160,12 +150,108 @@ auth.onAuthStateChanged(function(user) {
 
       console.error("Error loading provider:", error);
 
+      document.getElementById("bookingMessage").textContent =
+        "Unable to load your provider profile.";
+
     });
 
 });
 
+
+function loadApprovedJobs(providerService) {
+
+  const bookingMessage =
+    document.getElementById("bookingMessage");
+
+  if (!providerService) {
+
+    bookingMessage.textContent =
+      "Your provider service has not been set.";
+
+    return;
+  }
+
+  db.collection("bookings")
+    .where("status", "==", "approved")
+    .where("service", "==", providerService)
+    .get()
+
+    .then(function(snapshot) {
+
+      bookingMessage.innerHTML = "";
+
+      if (snapshot.empty) {
+
+        bookingMessage.innerHTML =
+          "🎉 No approved customer requests for your service yet.";
+
+        return;
+      }
+
+      snapshot.forEach(function(doc) {
+
+        const booking = doc.data();
+
+        const card =
+          document.createElement("div");
+
+        card.className = "job-card";
+
+        card.innerHTML = `
+
+          <h3>🛠️ ${booking.service || "Service Request"}</h3>
+
+          <p>
+            <strong>Customer:</strong>
+            ${booking.customerName || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${booking.customerPhone || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            ${booking.customerEmail || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Location:</strong>
+            ${booking.location || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Description:</strong>
+            ${booking.description || "No description"}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            <span class="status">
+              ✅ Approved
+            </span>
+          </p>
+
+        `;
+
+        bookingMessage.appendChild(card);
+
+      });
+
+    })
+
+    .catch(function(error) {
+
+      console.error("Error loading approved jobs:", error);
+
+      bookingMessage.innerHTML =
+        "<p>❌ Unable to load approved jobs.</p>";
+
+    });
+
+}
+
 </script>
-
-
 </body>
   </html>
