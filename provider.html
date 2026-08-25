@@ -4,180 +4,484 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Become a Provider - Good News Campus Connect</title>
+  <title>Provider - Good News Campus Connect</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .auth-box {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+    }
+
+    .auth-section {
+      background: white;
+      padding: 25px;
+      margin: 25px 0;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .auth-section h2 {
+      margin-top: 0;
+    }
+
+    .auth-section input,
+    .auth-section select,
+    .auth-section textarea {
+      width: 90%;
+      max-width: 500px;
+      display: block;
+      margin: 10px auto;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .auth-section button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 8px;
+    }
+
+    .message {
+      font-weight: bold;
+      margin: 10px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>🎓 Good News Campus Connect</h1>
-  <p>Become a Service Provider</p>
+  <p>Provider Account</p>
 </header>
 
-<section class="hero">
 
-  <h2>Offer Your Services</h2>
+<div class="auth-box">
 
-  <p>
-    Join Good News Campus Connect and connect with
-    students who need your services.
-  </p>
+  <!-- PROVIDER LOGIN -->
 
-  <form id="providerForm" onsubmit="createProvider(event)">
+  <section class="auth-section">
 
-    <input
-      type="text"
-      id="fullName"
-      placeholder="Full Name"
-      required
-    >
+    <h2>🔐 Provider Login</h2>
 
-    <input
-      type="tel"
-      id="phone"
-      placeholder="Phone / WhatsApp Number"
-      required
-    >
+    <p>Already have a provider account? Log in here.</p>
 
-    <input
-      type="email"
-      id="email"
-      placeholder="Email Address"
-      required
-    >
+    <form id="loginForm">
 
-    <input
-      type="password"
-      id="password"
-      placeholder="Create Password"
-      minlength="6"
-      required
-    >
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="Email Address"
+        required
+      >
 
-    <input
-      type="text"
-      id="university"
-      placeholder="University"
-      required
-    >
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Password"
+        required
+      >
 
-    <select id="service" required>
-      <option value="">Select your service</option>
-      <option>Laundry</option>
-      <option>Laptop Engineer</option>
-      <option>Cleaning Services</option>
-      <option>Hair Dressing</option>
-      <option>Nail Technician</option>
-      <option>Painter</option>
-      <option>Website Developer</option>
-      <option>Assignment Runs</option>
-      <option>Phone Engineer</option>
-      <option>Graphics Design</option>
-      <option>Other Services</option>
-    </select>
+      <button type="submit">
+        🔑 Login
+      </button>
 
-    <input
-      type="text"
-      id="location"
-      placeholder="Your Campus / Location"
-      required
-    >
+    </form>
 
-    <input
-      type="number"
-      id="price"
-      placeholder="Starting Price (₦)"
-      min="0"
-      required
-    >
+    <p id="loginMessage" class="message"></p>
 
-    <textarea
-      id="description"
-      placeholder="Describe your service..."
-      required
-    ></textarea>
+  </section>
 
-    <button type="submit">
-      Register as a Provider
-    </button>
 
-  </form>
+  <!-- PROVIDER REGISTRATION -->
 
-</section>
+  <section class="auth-section">
+
+    <h2>📝 Become a Provider</h2>
+
+    <p>
+      Don't have an account? Register your service below.
+    </p>
+
+    <form id="providerForm">
+
+      <input
+        type="text"
+        id="fullName"
+        placeholder="Full Name"
+        required
+      >
+
+      <input
+        type="tel"
+        id="phone"
+        placeholder="Phone / WhatsApp Number"
+        required
+      >
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email Address"
+        required
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Create Password"
+        minlength="6"
+        required
+      >
+
+      <input
+        type="text"
+        id="university"
+        placeholder="University"
+        required
+      >
+
+      <select id="service" required>
+
+        <option value="">
+          Select your service
+        </option>
+
+        <option>Laundry</option>
+        <option>Laptop Engineer</option>
+        <option>Cleaning Services</option>
+        <option>Hair Dressing</option>
+        <option>Nail Technician</option>
+        <option>Painter</option>
+        <option>Website Developer</option>
+        <option>Assignment Runs</option>
+        <option>Phone Engineer</option>
+        <option>Graphics Design</option>
+        <option>Other Services</option>
+
+      </select>
+
+      <input
+        type="text"
+        id="location"
+        placeholder="Your Campus / Location"
+        required
+      >
+
+      <input
+        type="number"
+        id="price"
+        placeholder="Starting Price (₦)"
+        min="0"
+        required
+      >
+
+      <textarea
+        id="description"
+        placeholder="Describe your service..."
+        required
+      ></textarea>
+
+      <button type="submit">
+        📝 Register as a Provider
+      </button>
+
+    </form>
+
+    <p id="registrationMessage" class="message"></p>
+
+  </section>
+
+</div>
+
 
 <footer>
+
   <p>© 2026 Good News Campus Connect</p>
-  <p>Connecting students with opportunities.</p>
+
+  <p>
+    Connecting students with opportunities.
+  </p>
+
 </footer>
 
+
+<!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
+
 <script>
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
-  authDomain: "good-news-campus-connect.firebaseapp.com",
-  projectId: "good-news-campus-connect",
-  storageBucket: "good-news-campus-connect.firebasestorage.app",
-  messagingSenderId: "301910999227",
-  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+
+  apiKey:
+    "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
+
+  projectId:
+    "good-news-campus-connect",
+
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
+
+  messagingSenderId:
+    "301910999227",
+
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
+
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
 
-window.createProvider = function(event) {
-  event.preventDefault();
+const auth =
+  firebase.auth();
 
-  const name = document.getElementById("fullName").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const university = document.getElementById("university").value.trim();
-  const service = document.getElementById("service").value;
-  const location = document.getElementById("location").value.trim();
-  const price = Number(document.getElementById("price").value);
-  const description = document.getElementById("description").value.trim();
+const db =
+  firebase.firestore();
 
-  auth.createUserWithEmailAndPassword(email, password)
-    .then(function(userCredential) {
 
-      return db.collection("providers")
-        .doc(userCredential.user.uid)
-        .set({
-          name: name,
-          email: email,
-          phone: phone,
-          university: university,
-          service: service,
-          location: location,
-          startingPrice: price,
-          description: description,
-          role: "provider",
-          status: "available",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+/* =========================
+   PROVIDER LOGIN
+========================= */
 
-    })
-    .then(function() {
+document
+  .getElementById("loginForm")
+  .addEventListener("submit", function(event) {
 
-      alert("Provider account created successfully! 🎉");
+    event.preventDefault();
 
-      window.location.href = "provider-dashboard.html";
 
-    })
-    .catch(function(error) {
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim()
+        .toLowerCase();
 
-      alert("Registration failed: " + error.message);
 
-    });
-};
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+
+    const message =
+      document.getElementById("loginMessage");
+
+
+    message.textContent =
+      "Logging in...";
+
+
+    auth
+      .signInWithEmailAndPassword(
+        email,
+        password
+      )
+
+      .then(function(userCredential) {
+
+        message.textContent =
+          "Login successful! 🎉";
+
+
+        window.location.href =
+          "provider-dashboard.html";
+
+      })
+
+      .catch(function(error) {
+
+        console.error(error);
+
+
+        message.textContent =
+          "Login failed: " +
+          error.message;
+
+      });
+
+  });
+
+
+/* =========================
+   PROVIDER REGISTRATION
+========================= */
+
+document
+  .getElementById("providerForm")
+  .addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+
+    const name =
+      document
+        .getElementById("fullName")
+        .value
+        .trim();
+
+
+    const phone =
+      document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+
+    const university =
+      document
+        .getElementById("university")
+        .value
+        .trim();
+
+
+    const service =
+      document
+        .getElementById("service")
+        .value;
+
+
+    const location =
+      document
+        .getElementById("location")
+        .value
+        .trim();
+
+
+    const price =
+      Number(
+        document
+          .getElementById("price")
+          .value
+      );
+
+
+    const description =
+      document
+        .getElementById("description")
+        .value
+        .trim();
+
+
+    const message =
+      document.getElementById(
+        "registrationMessage"
+      );
+
+
+    message.textContent =
+      "Creating provider account...";
+
+
+    auth
+      .createUserWithEmailAndPassword(
+        email,
+        password
+      )
+
+      .then(function(userCredential) {
+
+        const user =
+          userCredential.user;
+
+
+        /*
+          IMPORTANT:
+          The Firestore document ID is
+          the Firebase Authentication UID.
+        */
+
+        return db
+          .collection("providers")
+          .doc(user.uid)
+          .set({
+
+            name: name,
+
+            email: email,
+
+            phone: phone,
+
+            university: university,
+
+            service: service,
+
+            location: location,
+
+            startingPrice: price,
+
+            description: description,
+
+            role: "provider",
+
+            status: "available",
+
+            createdAt:
+              firebase.firestore
+                .FieldValue
+                .serverTimestamp()
+
+          });
+
+      })
+
+      .then(function() {
+
+        message.textContent =
+          "Provider account created successfully! 🎉";
+
+
+        window.location.href =
+          "provider-dashboard.html";
+
+      })
+
+      .catch(function(error) {
+
+        console.error(error);
+
+
+        message.textContent =
+          "Registration failed: " +
+          error.message;
+
+      });
+
+  });
+
 </script>
 
 </body>
-</html>
+  </html>
