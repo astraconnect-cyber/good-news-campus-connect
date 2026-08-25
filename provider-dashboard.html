@@ -155,11 +155,11 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 
-/* =========================
+/* =========================================
    AUTHENTICATION
-========================= */
+========================================= */
 
-auth.onAuthStateChanged(function(user) {
+auth.onAuthStateChanged(async function(user) {
 
   if (!user) {
 
@@ -169,203 +169,539 @@ auth.onAuthStateChanged(function(user) {
 
   }
 
-
   console.log("Provider logged in:", user.uid);
+  console.log("Provider email:", user.email);
 
 
-  /* =========================
-     LOAD PROVIDER PROFILE
-  ========================= */
+  try {
 
-  db.collection("providers")
-    .doc(user.uid)
-    .get()
+    /*
+     * Load the provider profile.
+     */
 
-    .then(function(doc) {
-
-      if (!doc.exists) {
-
-        alert("Provider profile not found.");
-
-        return;
-
-      }
+    await loadProviderProfile(user);
 
 
-      const provider = doc.data();
+    /*
+     * Load this provider's approved jobs.
+     */
 
+    await loadProviderJobs(user.uid);
 
-      document.getElementById("providerName").textContent =
-        provider.name || "";
+  }
 
-      document.getElementById("providerEmail").textContent =
-        provider.email || user.email || "";
+  catch (error) {
 
-      document.getElementById("providerService").textContent =
-        provider.service || "";
+    console.error("Dashboard error:", error);
 
-      document.getElementById("providerLocation").textContent =
-        provider.location || "";
+    showProfileError(
+      "❌ Could not load your provider profile: " +
+      error.message
+    );
 
-      document.getElementById("providerPrice").textContent =
-        provider.startingPrice || "0";
-
-      document.getElementById("providerDescription").textContent =
-        provider.description || "";
-
-
-      /* Load this provider's jobs */
-
-      loadProviderJobs(user.uid);
-
-    })
-
-    .catch(function(error) {
-
-      console.error("Error loading provider:", error);
-
-      document.getElementById("bookingList").innerHTML =
-        "<div class='job-card'><p>❌ Could not load your profile.</p></div>";
-
-    });
+  }
 
 });
 
 
-/* =========================
-   LOAD PROVIDER JOBS
-========================= */
+/* =========================================
+   LOAD PROVIDER PROFILE
+========================================= */
 
-function loadProviderJobs(providerId) {
+async function loadProviderProfile(user) {
+
+  /*
+   * STEP 1
+   *
+   * Look for the provider using the
+   * Firebase Authentication UID.
+   *
+   * This is how newly registered providers
+   * should be stored.
+   */
+
+  const providerRef =
+    db.collection("providers").doc(user.uid);
+
+
+  const providerDoc =
+    await providerRef.get();
+
+
+  /*
+   * If the correct UID document exists,
+   * display it immediately.
+   */
+
+  if (providerDoc.exists) {
+
+    console.log(
+      "✅ Provider profile found using UID."
+    );
+
+    displayProviderProfile(
+      providerDoc.data(),
+      user
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * STEP 2
+   *
+   * If the UID document does not exist,
+   * search for the provider using email.
+   *
+   * This helps recover older provider
+   * documents that may have been created
+   * with a different Firestore document ID.
+   */
+
+  console.log(
+    "UID profile not found. Searching by email..."
+  );
+
+
+  if (!user.email) {
+
+    throw new Error(
+      "Your Firebase account has no email address."
+    );
+
+  }
+
+
+  const emailSnapshot = await db
+    .collection("providers")
+    .where("email", "==", user.email)
+    .limit(1)
+    .get();
+
+
+  /*
+   * No provider document was found.
+   */
+
+  if (emailSnapshot.empty) {
+
+    throw new Error(
+      "No provider profile was found for " +
+      user.email
+    );
+
+  }
+
+
+  /*
+   * We found an older provider document.
+   */
+
+  const oldDoc =
+    emailSnapshot.docs[0];
+
+  const providerData =
+    oldDoc.data();
+
+
+  console.log(
+    "✅ Provider found using email."
+  );
+
+  console.log(
+    "Old Firestore document ID:",
+    oldDoc.id
+  );
+
+  console.log(
+    "Firebase Auth UID:",
+    user.uid
+  );
+
+
+  /*
+   * STEP 3
+   *
+   * Repair the provider profile.
+   *
+   * The profile is copied into a document
+   * whose ID matches the Firebase Auth UID.
+   */
+
+  await providerRef.set(
+
+    {
+      ...providerData,
+
+      uid: user.uid,
+
+      email: user.email,
+
+      updatedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
+    },
+
+    {
+      merge: true
+    }
+
+  );
+
+
+  console.log(
+    "✅ Provider profile repaired."
+  );
+
+
+  /*
+   * Display the repaired profile.
+   */
+
+  displayProviderProfile(
+    providerData,
+    user
+  );
+
+}
+
+
+/* =========================================
+   DISPLAY PROVIDER PROFILE
+========================================= */
+
+function displayProviderProfile(provider, user) {
+
+  document.getElementById("providerName").textContent =
+    provider.name || "Not provided";
+
+
+  document.getElementById("providerEmail").textContent =
+    provider.email ||
+    user.email ||
+    "Not provided";
+
+
+  document.getElementById("providerService").textContent =
+    provider.service ||
+    "Not provided";
+
+
+  document.getElementById("providerLocation").textContent =
+    provider.location ||
+    "Not provided";
+
+
+  document.getElementById("providerPrice").textContent =
+    provider.startingPrice != null
+      ? Number(provider.startingPrice).toLocaleString()
+      : "0";
+
+
+  document.getElementById("providerDescription").textContent =
+    provider.description ||
+    "No description";
+
+
+  console.log(
+    "✅ Provider profile displayed successfully."
+  );
+
+}
+
+
+/* =========================================
+   PROFILE ERROR
+========================================= */
+
+function showProfileError(message) {
+
+  document.getElementById("providerName").textContent =
+    "Error";
+
+
+  document.getElementById("providerEmail").textContent =
+    "Error";
+
+
+  document.getElementById("providerService").textContent =
+    "Error";
+
+
+  document.getElementById("providerLocation").textContent =
+    "Error";
+
+
+  document.getElementById("providerPrice").textContent =
+    "Error";
+
+
+  document.getElementById("providerDescription").textContent =
+    message;
+
+
+  document.getElementById("bookingList").innerHTML = `
+
+    <div class="job-card">
+
+      <h3>❌ Provider Profile Error</h3>
+
+      <p>
+        ${escapeHTML(message)}
+      </p>
+
+    </div>
+
+  `;
+
+
+  alert(message);
+
+}
+
+
+/* =========================================
+   LOAD PROVIDER JOBS
+========================================= */
+
+async function loadProviderJobs(providerId) {
 
   const bookingList =
     document.getElementById("bookingList");
 
 
   bookingList.innerHTML = `
+
     <div class="job-card">
-      <p>Loading customer requests...</p>
+
+      <p>
+        Loading customer requests...
+      </p>
+
     </div>
+
   `;
 
 
-  db.collection("bookings")
+  try {
 
-    .where("providerId", "==", providerId)
-
-    .where("status", "==", "approved")
-
-    .get()
-
-    .then(function(snapshot) {
-
-      bookingList.innerHTML = "";
+    const snapshot = await db
+      .collection("bookings")
+      .where("providerId", "==", providerId)
+      .where("status", "==", "approved")
+      .get();
 
 
-      if (snapshot.empty) {
-
-        bookingList.innerHTML = `
-          <div class="job-card">
-
-            <h3>📭 No Approved Jobs Yet</h3>
-
-            <p>
-              You don't have any approved customer requests yet.
-            </p>
-
-          </div>
-        `;
-
-        return;
-
-      }
+    bookingList.innerHTML = "";
 
 
-      snapshot.forEach(function(doc) {
+    /*
+     * No approved jobs.
+     */
 
-        const booking = doc.data();
-
-
-        const card =
-          document.createElement("div");
-
-
-        card.className = "job-card";
-
-
-        card.innerHTML = `
-
-          <h3>🛠️ ${booking.service || "Service Request"}</h3>
-
-          <hr>
-
-          <p>
-            <strong>👤 Customer:</strong>
-            ${booking.customerName || "Not provided"}
-          </p>
-
-          <p>
-            <strong>📞 Phone:</strong>
-            ${booking.customerPhone || "Not provided"}
-          </p>
-
-          <p>
-            <strong>📧 Email:</strong>
-            ${booking.customerEmail || "Not provided"}
-          </p>
-
-          <p>
-            <strong>📍 Location:</strong>
-            ${booking.location || "Not provided"}
-          </p>
-
-          <p>
-            <strong>📝 Request:</strong>
-            ${booking.description || "No description"}
-          </p>
-
-          <p>
-            <strong>📌 Status:</strong>
-            <span style="
-              background:#d4edda;
-              color:#155724;
-              padding:6px 12px;
-              border-radius:20px;
-              font-weight:bold;
-            ">
-              ${booking.status || "approved"}
-            </span>
-          </p>
-
-        `;
-
-
-        bookingList.appendChild(card);
-
-      });
-
-    })
-
-    .catch(function(error) {
-
-      console.error("Error loading bookings:", error);
-
+    if (snapshot.empty) {
 
       bookingList.innerHTML = `
 
         <div class="job-card">
 
-          <h3>❌ Could Not Load Jobs</h3>
+          <h3>
+            📭 No Approved Jobs Yet
+          </h3>
 
           <p>
-            ${error.message}
+            You don't have any approved
+            customer requests yet.
           </p>
 
         </div>
 
       `;
 
+      return;
+
+    }
+
+
+    /*
+     * Display every approved booking.
+     */
+
+    snapshot.forEach(function(doc) {
+
+      const booking =
+        doc.data();
+
+
+      const card =
+        document.createElement("div");
+
+
+      card.className =
+        "job-card";
+
+
+      card.innerHTML = `
+
+        <h3>
+          🛠️ ${escapeHTML(
+            booking.service ||
+            "Service Request"
+          )}
+        </h3>
+
+        <hr>
+
+        <p>
+
+          <strong>
+            👤 Customer:
+          </strong>
+
+          ${escapeHTML(
+            booking.customerName ||
+            "Not provided"
+          )}
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            📞 Phone:
+          </strong>
+
+          ${escapeHTML(
+            booking.customerPhone ||
+            "Not provided"
+          )}
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            📧 Email:
+          </strong>
+
+          ${escapeHTML(
+            booking.customerEmail ||
+            "Not provided"
+          )}
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            📍 Location:
+          </strong>
+
+          ${escapeHTML(
+            booking.location ||
+            "Not provided"
+          )}
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            📝 Request:
+          </strong>
+
+          ${escapeHTML(
+            booking.description ||
+            "No description"
+          )}
+
+        </p>
+
+
+        <p>
+
+          <strong>
+            📌 Status:
+          </strong>
+
+          <span style="
+            background:#d4edda;
+            color:#155724;
+            padding:6px 12px;
+            border-radius:20px;
+            font-weight:bold;
+          ">
+
+            ${escapeHTML(
+              booking.status ||
+              "approved"
+            )}
+
+          </span>
+
+        </p>
+
+      `;
+
+
+      bookingList.appendChild(card);
+
     });
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Error loading bookings:",
+      error
+    );
+
+
+    bookingList.innerHTML = `
+
+      <div class="job-card">
+
+        <h3>
+          ❌ Could Not Load Jobs
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            error.message
+          )}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement("div");
+
+
+  div.textContent =
+    String(value);
+
+
+  return div.innerHTML;
 
 }
 
