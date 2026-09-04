@@ -354,13 +354,84 @@ function showDashboard() {
 
   loadBookings();
 
-  loadPendingProviders();
+loadPendingProviders();
 
-  loadApprovedProviders();
+loadApprovedProviders();
 
+loadAdminJobs();
 }
 
+<!-- =========================
+     POST JOB VACANCY
+========================= -->
 
+<h2 class="section-title">
+  💼 Post a Job Vacancy
+</h2>
+
+<div class="provider-card">
+
+  <input
+    type="text"
+    id="jobTitle"
+    placeholder="Job Title"
+  >
+
+  <input
+    type="text"
+    id="jobCompany"
+    placeholder="Company / Employer Name"
+  >
+
+  <input
+    type="text"
+    id="jobLocation"
+    placeholder="Location (Campus / Remote / City)"
+  >
+
+  <select id="jobType">
+
+    <option value="">
+      Select Job Type
+    </option>
+
+    <option>Part-Time</option>
+    <option>Full-Time</option>
+    <option>Remote</option>
+    <option>Campus Job</option>
+    <option>Freelance</option>
+
+  </select>
+
+  <textarea
+    id="jobDescription"
+    placeholder="Describe the job, requirements and how to apply..."
+  ></textarea>
+
+  <button
+    type="button"
+    class="approve-btn"
+    onclick="postJob()"
+  >
+    📢 POST JOB VACANCY
+  </button>
+
+  <p id="jobMessage"></p>
+
+</div>
+
+
+<!-- =========================
+     POSTED JOBS
+========================= -->
+
+<h2 class="section-title">
+  📋 Posted Job Vacancies
+</h2>
+
+<div id="adminJobsList">
+  Loading jobs...
+</div>
 /* =========================
    LOAD BOOKINGS
 ========================= */
