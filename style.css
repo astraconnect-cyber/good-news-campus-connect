@@ -11,6 +11,10 @@ body {
   line-height: 1.6;
 }
 
+/* =========================
+   HEADER
+========================= */
+
 header {
   background: #0b5cff;
   color: white;
@@ -26,6 +30,11 @@ header h1 {
 header p {
   font-size: 15px;
 }
+
+
+/* =========================
+   HERO SECTION
+========================= */
 
 .hero {
   text-align: center;
@@ -52,6 +61,11 @@ header p {
   margin-top: 20px;
 }
 
+
+/* =========================
+   BUTTONS
+========================= */
+
 button {
   border: none;
   background: #0b5cff;
@@ -66,6 +80,11 @@ button {
 button:hover {
   background: #0848c7;
 }
+
+
+/* =========================
+   SERVICES
+========================= */
 
 .services {
   padding: 40px 20px;
@@ -82,7 +101,8 @@ button:hover {
 
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
   gap: 20px;
 }
 
@@ -91,7 +111,8 @@ button:hover {
   padding: 25px;
   border-radius: 14px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08);
   transition: 0.2s;
 }
 
@@ -109,6 +130,11 @@ button:hover {
   margin-bottom: 12px;
 }
 
+
+/* =========================
+   JOBS
+========================= */
+
 .jobs {
   padding: 40px 20px;
   background: #eef4ff;
@@ -121,7 +147,8 @@ button:hover {
   padding: 25px;
   border-radius: 14px;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .job-card p {
@@ -129,48 +156,44 @@ button:hover {
   color: #667085;
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
 footer {
   background: #172033;
   color: white;
   text-align: center;
-  padding: 25px 15px;.footer-links {
-margin-top: 15px;
-text-align: center;
-}
-
-.footer-links a {
-margin: 0 8px;
-text-decoration: none;
-font-weight: bold;
-}
-
-.footer-links a:hover {
-text-decoration: underline;
-}
-
-@media (max-width: 600px) {
-
-.footer-links {
-line-height: 2.5;
-}
-
-.footer-links span {
-display: none;
-}
-
-.footer-links a {
-display: inline-block;
-margin: 0 6px;
-}
-
-    }
+  padding: 25px 15px;
   margin-top: 0;
 }
 
 footer p {
   font-size: 13px;
   margin: 4px;
-  }/* Provider Registration */
+}
+
+.footer-links {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.footer-links a {
+  margin: 0 8px;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   PROVIDER REGISTRATION
+========================= */
 
 #providerForm {
   max-width: 600px;
@@ -210,47 +233,13 @@ footer p {
   padding: 15px;
   font-size: 16px;
   font-weight: bold;
-}/* Provider Registration */
-
-#providerForm {
-  max-width: 600px;
-  margin: 30px auto;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: left;
 }
 
-#providerForm input,
-#providerForm select,
-#providerForm textarea {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-  font-family: Arial, sans-serif;
-  outline: none;
-  background: white;
-}
 
-#providerForm textarea {
-  min-height: 130px;
-  resize: vertical;
-}
+/* =========================
+   ADMIN FORM ELEMENTS
+========================= */
 
-#providerForm input:focus,
-#providerForm select:focus,
-#providerForm textarea:focus {
-  border-color: #0b5cff;
-}
-
-#providerForm button {
-  width: 100%;
-  padding: 15px;
-  font-size: 16px;
-  font-weight: bold;
-  }
 select,
 textarea {
   display: block;
@@ -261,9 +250,40 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 textarea {
   min-height: 120px;
   resize: vertical;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  header h1 {
+    font-size: 24px;
   }
+
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .footer-links {
+    line-height: 2.5;
+  }
+
+  .footer-links span {
+    display: none;
+  }
+
+  .footer-links a {
+    display: inline-block;
+    margin: 0 6px;
+  }
+
+}
