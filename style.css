@@ -133,7 +133,37 @@ footer {
   background: #172033;
   color: white;
   text-align: center;
-  padding: 25px 15px;
+  padding: 25px 15px;.footer-links {
+margin-top: 15px;
+text-align: center;
+}
+
+.footer-links a {
+margin: 0 8px;
+text-decoration: none;
+font-weight: bold;
+}
+
+.footer-links a:hover {
+text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+
+.footer-links {
+line-height: 2.5;
+}
+
+.footer-links span {
+display: none;
+}
+
+.footer-links a {
+display: inline-block;
+margin: 0 6px;
+}
+
+    }
   margin-top: 0;
 }
 
