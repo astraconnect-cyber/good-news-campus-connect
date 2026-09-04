@@ -19,6 +19,10 @@ function openAdmin() {
 }
 
 
+/* =========================
+   SERVICE SEARCH
+========================= */
+
 const searchInput = document.getElementById("search");
 
 if (searchInput) {
@@ -54,12 +58,19 @@ if (searchInput) {
 }
 
 
+/* =========================
+   CUSTOMER REGISTRATION
+========================= */
+
 function createCustomer(event) {
 
   event.preventDefault();
 
   const name =
-    document.getElementById("customerName").value.trim();
+    document
+      .getElementById("customerName")
+      .value
+      .trim();
 
   localStorage.setItem(
     "customerName",
@@ -68,4 +79,5 @@ function createCustomer(event) {
 
   window.location.href =
     "customer-dashboard.html";
-        }
+
+    }
