@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
+
     .jobs-container {
       max-width: 900px;
       margin: 30px auto;
@@ -17,7 +19,7 @@
 
     .job-listing {
       background: white;
-      padding: 20px;
+      padding: 25px;
       margin: 20px 0;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -25,25 +27,47 @@
 
     .job-listing h3 {
       margin-top: 0;
+      color: #0b5cff;
+    }
+
+    .job-meta {
+      margin: 10px 0;
+    }
+
+    .job-meta span {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 8px;
+      padding: 6px 12px;
+      background: #eef4ff;
+      border-radius: 20px;
+      font-size: 14px;
     }
 
     .apply-btn {
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+      margin-top: 15px;
       font-size: 16px;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: #667085;
     }
 
     .back-btn {
       display: inline-block;
       margin-top: 20px;
       padding: 12px 20px;
+      background: #172033;
+      color: white;
       text-decoration: none;
       border-radius: 8px;
     }
+
   </style>
 </head>
+
 
 <body>
 
@@ -52,28 +76,13 @@
   <p>💼 Student Job Vacancies</p>
 </header>
 
+
 <div class="jobs-container">
 
   <h2>Available Opportunities</h2>
 
   <div id="jobsList">
-
-    <div class="job-listing">
-
-      <h3>🚀 Job Opportunities Coming Soon</h3>
-
-      <p>
-        We are currently building our student job opportunities
-        network.
-      </p>
-
-      <p>
-        New part-time, remote, campus and freelance opportunities
-        will be posted here.
-      </p>
-
-    </div>
-
+    Loading job vacancies...
   </div>
 
   <a href="index.html" class="back-btn">
@@ -81,6 +90,7 @@
   </a>
 
 </div>
+
 
 <footer>
 
@@ -90,5 +100,222 @@
 
 </footer>
 
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+
+
+<script>
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
+
+  projectId:
+    "good-news-campus-connect",
+
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
+
+  messagingSenderId:
+    "301910999227",
+
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
+
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+
+const db =
+  firebase.firestore();
+
+
+/* =========================
+   LOAD JOBS
+========================= */
+
+function loadJobs() {
+
+  const jobsList =
+    document.getElementById("jobsList");
+
+
+  db.collection("jobs")
+    .where("status", "==", "active")
+    .get()
+
+    .then(function(snapshot) {
+
+      jobsList.innerHTML = "";
+
+
+      if (snapshot.empty) {
+
+        jobsList.innerHTML = `
+
+          <div class="empty-message">
+
+            <h3>🚀 No Job Vacancies Yet</h3>
+
+            <p>
+              New student job opportunities
+              will appear here soon.
+            </p>
+
+          </div>
+
+        `;
+
+        return;
+
+      }
+
+
+      const jobs = [];
+
+
+      snapshot.forEach(function(doc) {
+
+        jobs.push({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        });
+
+      });
+
+
+      jobs.sort(function(a, b) {
+
+        const timeA =
+          a.createdAt
+            ? a.createdAt.toMillis()
+            : 0;
+
+
+        const timeB =
+          b.createdAt
+            ? b.createdAt.toMillis()
+            : 0;
+
+
+        return timeB - timeA;
+
+      });
+
+
+      jobs.forEach(function(job) {
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          "job-listing";
+
+
+        card.innerHTML = `
+
+          <h3>
+            💼 ${job.title || "Job Opportunity"}
+          </h3>
+
+          <div class="job-meta">
+
+            <span>
+              🏢 ${job.company || "Company"}
+            </span>
+
+            <span>
+              📍 ${job.location || "Location"}
+            </span>
+
+            <span>
+              ⏰ ${job.type || "Job Type"}
+            </span>
+
+          </div>
+
+          <p>
+            ${job.description || "No description available."}
+          </p>
+
+          <button
+            class="apply-btn"
+            onclick="applyForJob('${job.id}')"
+          >
+            📝 Apply Now
+          </button>
+
+        `;
+
+
+        jobsList.appendChild(card);
+
+      });
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+
+      jobsList.innerHTML = `
+
+        <div class="empty-message">
+
+          <h3>❌ Could not load jobs</h3>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+
+      `;
+
+    });
+
+}
+
+
+/* =========================
+   APPLY FOR JOB
+========================= */
+
+function applyForJob(jobId) {
+
+  window.location.href =
+    "apply-job.html?jobId=" +
+    jobId;
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadJobs();
+
+</script>
+
 </body>
-</html>
+  </html>
