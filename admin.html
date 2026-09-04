@@ -1,21 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Admin Dashboard - Good News Campus Connect</title>  <link rel="stylesheet" href="style.css">  <style>
 
-  <title>Admin Dashboard - Good News Campus Connect</title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
     .admin-box {
       max-width: 900px;
       margin: 30px auto;
       padding: 20px;
     }
 
-    .booking-card {
+    .section-title {
+      margin-top: 40px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .booking-card,
+    .provider-card {
       background: white;
       padding: 20px;
       margin: 20px 0;
@@ -23,7 +24,8 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    .booking-card h3 {
+    .booking-card h3,
+    .provider-card h3 {
       margin-top: 0;
     }
 
@@ -33,6 +35,15 @@
       border-radius: 20px;
       background: #fff3cd;
       color: #856404;
+      font-weight: bold;
+    }
+
+    .verified {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #d1e7dd;
+      color: #0f5132;
       font-weight: bold;
     }
 
@@ -46,7 +57,8 @@
       font-size: 16px;
     }
 
-    .reject-btn {
+    .reject-btn,
+    .suspend-btn {
       background: #dc3545 !important;
       color: white !important;
       font-size: 16px;
@@ -72,6 +84,7 @@
       margin: 10px auto;
       border-radius: 8px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     button {
@@ -81,133 +94,197 @@
       cursor: pointer;
       margin: 5px;
     }
-  </style>
-</head>
 
-<body>
+    @media (max-width: 600px) {
 
-<header>
+      .admin-box {
+        padding: 12px;
+      }
+
+      .booking-card,
+      .provider-card {
+        padding: 15px;
+      }
+
+      button {
+        width: 100%;
+        margin: 5px 0;
+      }
+
+    }
+
+  </style></head><body><header>
   <h1>🎓 Good News Campus Connect</h1>
   <p>🔐 Admin Dashboard</p>
-</header>
+</header><!-- =========================
+     ADMIN LOGIN
+========================= --><section id="loginSection">  <h2>🔐 Admin Login</h2>  <p>
+    Only authorized administrators can access
+    bookings and provider applications.
+  </p><input
+type="email"
+id="adminEmail"
+placeholder="Admin Email"
 
-<!-- LOGIN -->
+«»
 
-<section id="loginSection">
+<input
+type="password"
+id="adminPassword"
+placeholder="Admin Password"
 
-  <h2>🔐 Admin Login</h2>
+«»
 
-  <p>Only authorized administrators can access job requests.</p>
+<button
+type="button"
+onclick="adminLogin()"
 
-  <input
-    type="email"
-    id="adminEmail"
-    placeholder="Admin Email"
-  >
+«»
 
-  <input
-    type="password"
-    id="adminPassword"
-    placeholder="Admin Password"
-  >
+🔑 Login
 
-  <button type="button" onclick="adminLogin()">
-    🔑 Login
-  </button>
+  </button>  <p id="loginMessage"></p></section><!-- =========================
+     ADMIN DASHBOARD
+========================= --><section
+  id="dashboardSection"
+  style="display:none;"
+>  <div class="admin-box"><h2>🎛️ Admin Control Center</h2>
 
-  <p id="loginMessage"></p>
+<p>
+  Manage customer requests and verify
+  service providers.
+</p>
 
-</section>
-
-
-<!-- DASHBOARD -->
-
-<section id="dashboardSection" style="display:none;">
-
-  <div class="admin-box">
-
-    <h2>📋 Incoming Job Requests</h2>
-
-    <p>
-      All customer requests must pass through you before reaching a provider.
-    </p>
-
-    <button
-      type="button"
-      class="logout-btn"
-      onclick="adminLogout()"
-    >
-      Logout
-    </button>
-
-    <div id="bookingsList">
-      Loading bookings...
-    </div>
-
-  </div>
-
-</section>
+<button
+  type="button"
+  class="logout-btn"
+  onclick="adminLogout()"
+>
+  🚪 Logout
+</button>
 
 
-<footer>
-  <p>© 2026 Good News Campus Connect</p>
-  <p>Connecting students with opportunities.</p>
-</footer>
+<!-- =========================
+     BOOKINGS
+========================= -->
+
+<h2 class="section-title">
+  📋 Incoming Job Requests
+</h2>
+
+<div id="bookingsList">
+  Loading bookings...
+</div>
 
 
-<!-- FIREBASE -->
+<!-- =========================
+     PENDING PROVIDERS
+========================= -->
 
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
+<h2 class="section-title">
+  👷 Pending Provider Applications
+</h2>
 
-<script>
+<p>
+  Review providers before allowing them
+  to access customer opportunities.
+</p>
+
+<div id="providersList">
+  Loading providers...
+</div>
+
+
+<!-- =========================
+     APPROVED PROVIDERS
+========================= -->
+
+<h2 class="section-title">
+  ✅ Verified Providers
+</h2>
+
+<div id="approvedProvidersList">
+  Loading verified providers...
+</div>
+
+  </div></section><footer>  <p>© 2026 Good News Campus Connect</p>  <p>
+    Connecting students with opportunities.
+  </p></footer><!-- =========================
+     FIREBASE
+========================= --><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script><script>
+
+/* =========================
+   FIREBASE CONFIG
+========================= */
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+  apiKey:
+    "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
 
-  authDomain: "good-news-campus-connect.firebaseapp.com",
+  authDomain:
+    "good-news-campus-connect.firebaseapp.com",
 
-  projectId: "good-news-campus-connect",
+  projectId:
+    "good-news-campus-connect",
 
-  storageBucket: "good-news-campus-connect.firebasestorage.app",
+  storageBucket:
+    "good-news-campus-connect.firebasestorage.app",
 
-  messagingSenderId: "301910999227",
+  messagingSenderId:
+    "301910999227",
 
-  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
+  appId:
+    "1:301910999227:web:e5a4fb85d33380521c299e"
 
 };
 
+
 firebase.initializeApp(firebaseConfig);
 
+
 const auth = firebase.auth();
+
 const db = firebase.firestore();
 
 
+/* =========================
+   AUTHORIZED ADMINS
+========================= */
+
 const ADMIN_EMAILS = [
+
   "chinyereezeugwu1234@gmail.com",
+
   "astraconnect4@gmail.com"
+
 ];
 
 
 /* =========================
-   LOGIN
+   ADMIN LOGIN
 ========================= */
 
 function adminLogin() {
 
   const email =
-    document.getElementById("adminEmail")
+    document
+      .getElementById("adminEmail")
       .value
       .trim()
       .toLowerCase();
 
+
   const password =
-    document.getElementById("adminPassword").value;
+    document
+      .getElementById("adminPassword")
+      .value;
+
 
   const message =
-    document.getElementById("loginMessage");
+    document
+      .getElementById("loginMessage");
+
 
   if (!email || !password) {
 
@@ -215,19 +292,29 @@ function adminLogin() {
       "Please enter your email and password.";
 
     return;
+
   }
+
 
   if (!ADMIN_EMAILS.includes(email)) {
 
     message.textContent =
-      "Access denied. This email is not an authorized administrator.";
+      "Access denied. This email is not authorized.";
 
     return;
+
   }
 
-  message.textContent = "Logging in...";
 
-  auth.signInWithEmailAndPassword(email, password)
+  message.textContent =
+    "Logging in...";
+
+
+  auth
+    .signInWithEmailAndPassword(
+      email,
+      password
+    )
 
     .then(function() {
 
@@ -237,8 +324,12 @@ function adminLogin() {
 
     .catch(function(error) {
 
+      console.error(error);
+
+
       message.textContent =
-        "Login failed: " + error.message;
+        "Login failed: " +
+        error.message;
 
     });
 
@@ -251,13 +342,21 @@ function adminLogin() {
 
 function showDashboard() {
 
-  document.getElementById("loginSection")
+  document
+    .getElementById("loginSection")
     .style.display = "none";
 
-  document.getElementById("dashboardSection")
+
+  document
+    .getElementById("dashboardSection")
     .style.display = "block";
 
+
   loadBookings();
+
+  loadPendingProviders();
+
+  loadApprovedProviders();
 
 }
 
@@ -269,9 +368,13 @@ function showDashboard() {
 function loadBookings() {
 
   const list =
-    document.getElementById("bookingsList");
+    document
+      .getElementById("bookingsList");
 
-  list.innerHTML = "Loading bookings...";
+
+  list.innerHTML =
+    "Loading bookings...";
+
 
   db.collection("bookings")
     .orderBy("createdAt", "desc")
@@ -281,22 +384,30 @@ function loadBookings() {
 
       list.innerHTML = "";
 
+
       if (snapshot.empty) {
 
         list.innerHTML =
           "<p>🎉 No booking requests yet.</p>";
 
         return;
+
       }
+
 
       snapshot.forEach(function(doc) {
 
-        const booking = doc.data();
+        const booking =
+          doc.data();
+
 
         const card =
           document.createElement("div");
 
-        card.className = "booking-card";
+
+        card.className =
+          "booking-card";
+
 
         card.innerHTML = `
 
@@ -337,6 +448,7 @@ function loadBookings() {
             </span>
           </p>
 
+
           <div class="action-buttons">
 
             <button
@@ -346,6 +458,7 @@ function loadBookings() {
             >
               ✅ APPROVE
             </button>
+
 
             <button
               type="button"
@@ -359,6 +472,7 @@ function loadBookings() {
 
         `;
 
+
         list.appendChild(card);
 
       });
@@ -368,6 +482,7 @@ function loadBookings() {
     .catch(function(error) {
 
       console.error(error);
+
 
       list.innerHTML =
         "<p>❌ Could not load bookings: " +
@@ -380,7 +495,7 @@ function loadBookings() {
 
 
 /* =========================
-   APPROVE
+   APPROVE BOOKING
 ========================= */
 
 function approveBooking(bookingId) {
@@ -392,13 +507,18 @@ function approveBooking(bookingId) {
       status: "approved",
 
       approvedAt:
-        firebase.firestore.FieldValue.serverTimestamp()
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
 
     })
 
     .then(function() {
 
-      alert("✅ Booking approved!");
+      alert(
+        "✅ Booking approved!"
+      );
+
 
       loadBookings();
 
@@ -417,7 +537,7 @@ function approveBooking(bookingId) {
 
 
 /* =========================
-   REJECT
+   REJECT BOOKING
 ========================= */
 
 function rejectBooking(bookingId) {
@@ -429,13 +549,18 @@ function rejectBooking(bookingId) {
       status: "rejected",
 
       rejectedAt:
-        firebase.firestore.FieldValue.serverTimestamp()
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
 
     })
 
     .then(function() {
 
-      alert("❌ Booking rejected.");
+      alert(
+        "❌ Booking rejected."
+      );
+
 
       loadBookings();
 
@@ -454,18 +579,397 @@ function rejectBooking(bookingId) {
 
 
 /* =========================
+   LOAD PENDING PROVIDERS
+========================= */
+
+function loadPendingProviders() {
+
+  const list =
+    document
+      .getElementById("providersList");
+
+
+  list.innerHTML =
+    "Loading provider applications...";
+
+
+  db.collection("providers")
+    .where("status", "==", "pending")
+    .get()
+
+    .then(function(snapshot) {
+
+      list.innerHTML = "";
+
+
+      if (snapshot.empty) {
+
+        list.innerHTML =
+          "<p>🎉 No pending provider applications.</p>";
+
+        return;
+
+      }
+
+
+      snapshot.forEach(function(doc) {
+
+        const provider =
+          doc.data();
+
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          "provider-card";
+
+
+        card.innerHTML = `
+
+          <h3>
+            👷 ${provider.name || "Provider"}
+          </h3>
+
+          <p>
+            <strong>Service:</strong>
+            ${provider.service || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${provider.phone || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            ${provider.email || "Not provided"}
+          </p>
+
+          <p>
+            <strong>University:</strong>
+            ${provider.university || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Location:</strong>
+            ${provider.location || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Starting Price:</strong>
+            ₦${provider.startingPrice || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Description:</strong>
+            ${provider.description || "No description"}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+
+            <span class="status">
+              ⏳ Pending Verification
+            </span>
+          </p>
+
+
+          <div class="action-buttons">
+
+            <button
+              type="button"
+              class="approve-btn"
+              onclick="approveProvider('${doc.id}')"
+            >
+              ✅ VERIFY PROVIDER
+            </button>
+
+
+            <button
+              type="button"
+              class="suspend-btn"
+              onclick="suspendProvider('${doc.id}')"
+            >
+              🚫 SUSPEND
+            </button>
+
+          </div>
+
+        `;
+
+
+        list.appendChild(card);
+
+      });
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+
+      list.innerHTML =
+        "<p>❌ Could not load providers: " +
+        error.message +
+        "</p>";
+
+    });
+
+}
+
+
+/* =========================
+   APPROVE PROVIDER
+========================= */
+
+function approveProvider(providerId) {
+
+  const confirmApproval =
+    confirm(
+      "Are you sure you want to verify this provider?"
+    );
+
+
+  if (!confirmApproval) return;
+
+
+  db.collection("providers")
+    .doc(providerId)
+    .update({
+
+      status: "approved",
+
+      verified: true,
+
+      verifiedAt:
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
+
+    })
+
+    .then(function() {
+
+      alert(
+        "✅ Provider verified successfully!"
+      );
+
+
+      loadPendingProviders();
+
+      loadApprovedProviders();
+
+    })
+
+    .catch(function(error) {
+
+      alert(
+        "❌ Could not verify provider: " +
+        error.message
+      );
+
+    });
+
+}
+
+
+/* =========================
+   SUSPEND PROVIDER
+========================= */
+
+function suspendProvider(providerId) {
+
+  const confirmSuspend =
+    confirm(
+      "Are you sure you want to suspend this provider?"
+    );
+
+
+  if (!confirmSuspend) return;
+
+
+  db.collection("providers")
+    .doc(providerId)
+    .update({
+
+      status: "suspended",
+
+      verified: false,
+
+      suspendedAt:
+        firebase.firestore
+          .FieldValue
+          .serverTimestamp()
+
+    })
+
+    .then(function() {
+
+      alert(
+        "🚫 Provider suspended."
+      );
+
+
+      loadPendingProviders();
+
+      loadApprovedProviders();
+
+    })
+
+    .catch(function(error) {
+
+      alert(
+        "❌ Could not suspend provider: " +
+        error.message
+      );
+
+    });
+
+}
+
+
+/* =========================
+   LOAD APPROVED PROVIDERS
+========================= */
+
+function loadApprovedProviders() {
+
+  const list =
+    document
+      .getElementById(
+        "approvedProvidersList"
+      );
+
+
+  list.innerHTML =
+    "Loading verified providers...";
+
+
+  db.collection("providers")
+    .where("status", "==", "approved")
+    .get()
+
+    .then(function(snapshot) {
+
+      list.innerHTML = "";
+
+
+      if (snapshot.empty) {
+
+        list.innerHTML =
+          "<p>No verified providers yet.</p>";
+
+        return;
+
+      }
+
+
+      snapshot.forEach(function(doc) {
+
+        const provider =
+          doc.data();
+
+
+        const card =
+          document.createElement("div");
+
+
+        card.className =
+          "provider-card";
+
+
+        card.innerHTML = `
+
+          <h3>
+            👷 ${provider.name || "Provider"}
+          </h3>
+
+          <p>
+            <strong>Service:</strong>
+            ${provider.service || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            ${provider.phone || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Location:</strong>
+            ${provider.location || "Not provided"}
+          </p>
+
+          <p>
+            <strong>Starting Price:</strong>
+            ₦${provider.startingPrice || "Not provided"}
+          </p>
+
+          <p>
+
+            <span class="verified">
+              ✅ VERIFIED PROVIDER
+            </span>
+
+          </p>
+
+
+          <div class="action-buttons">
+
+            <button
+              type="button"
+              class="suspend-btn"
+              onclick="suspendProvider('${doc.id}')"
+            >
+              🚫 SUSPEND PROVIDER
+            </button>
+
+          </div>
+
+        `;
+
+
+        list.appendChild(card);
+
+      });
+
+    })
+
+    .catch(function(error) {
+
+      console.error(error);
+
+
+      list.innerHTML =
+        "<p>❌ Could not load verified providers: " +
+        error.message +
+        "</p>";
+
+    });
+
+}
+
+
+/* =========================
    LOGOUT
 ========================= */
 
 function adminLogout() {
 
-  auth.signOut()
+  auth
+    .signOut()
+
     .then(function() {
 
-      document.getElementById("dashboardSection")
+      document
+        .getElementById("dashboardSection")
         .style.display = "none";
 
-      document.getElementById("loginSection")
+
+      document
+        .getElementById("loginSection")
         .style.display = "block";
 
     });
@@ -474,16 +978,21 @@ function adminLogout() {
 
 
 /* =========================
-   CHECK LOGIN
+   CHECK ADMIN LOGIN
 ========================= */
 
 auth.onAuthStateChanged(function(user) {
 
   if (
+
     user &&
+
+    user.email &&
+
     ADMIN_EMAILS.includes(
       user.email.toLowerCase()
     )
+
   ) {
 
     showDashboard();
@@ -492,7 +1001,5 @@ auth.onAuthStateChanged(function(user) {
 
 });
 
-</script>
-
-</body>
+</script></body>
   </html>
