@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Provider - Good News Campus Connect</title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Provider - Good News Campus Connect</title>  <link rel="stylesheet" href="style.css">  <style>
     .auth-box {
       max-width: 600px;
       margin: 30px auto;
@@ -51,198 +44,150 @@
     .message {
       font-weight: bold;
       margin: 10px;
+      text-align: center;
     }
-  </style>
-</head>
-
-<body>
-
-<header>
+  </style></head><body><header>
   <h1>🎓 Good News Campus Connect</h1>
   <p>Provider Account</p>
-</header>
+</header><div class="auth-box">  <!-- PROVIDER LOGIN -->  <section class="auth-section"><h2>🔐 Provider Login</h2>
 
+<p>Already have a provider account? Log in here.</p>
 
-<div class="auth-box">
+<form id="loginForm">
 
-  <!-- PROVIDER LOGIN -->
+  <input
+    type="email"
+    id="loginEmail"
+    placeholder="Email Address"
+    required
+  >
 
-  <section class="auth-section">
+  <input
+    type="password"
+    id="loginPassword"
+    placeholder="Password"
+    required
+  >
 
-    <h2>🔐 Provider Login</h2>
+  <button type="submit">
+    🔑 Login
+  </button>
 
-    <p>Already have a provider account? Log in here.</p>
+</form>
 
-    <form id="loginForm">
+<p id="loginMessage" class="message"></p>
 
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="Email Address"
-        required
-      >
+  </section>  <!-- PROVIDER REGISTRATION -->  <section class="auth-section"><h2>📝 Become a Provider</h2>
 
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Password"
-        required
-      >
+<p>
+  Register your service below. All providers are reviewed
+  by our team before becoming active.
+</p>
 
-      <button type="submit">
-        🔑 Login
-      </button>
+<form id="providerForm">
 
-    </form>
+  <input
+    type="text"
+    id="fullName"
+    placeholder="Full Name"
+    required
+  >
 
-    <p id="loginMessage" class="message"></p>
+  <input
+    type="tel"
+    id="phone"
+    placeholder="Phone / WhatsApp Number"
+    required
+  >
 
-  </section>
+  <input
+    type="email"
+    id="email"
+    placeholder="Email Address"
+    required
+  >
 
+  <input
+    type="password"
+    id="password"
+    placeholder="Create Password"
+    minlength="6"
+    required
+  >
 
-  <!-- PROVIDER REGISTRATION -->
+  <input
+    type="text"
+    id="university"
+    placeholder="University"
+    required
+  >
 
-  <section class="auth-section">
+  <select id="service" required>
 
-    <h2>📝 Become a Provider</h2>
+    <option value="">Select your service</option>
 
-    <p>
-      Don't have an account? Register your service below.
-    </p>
+    <option>Laundry</option>
+    <option>Laptop Engineer</option>
+    <option>Cleaning Services</option>
+    <option>Hair Dressing</option>
+    <option>Nail Technician</option>
+    <option>Painter</option>
+    <option>Website Developer</option>
+    <option>Assignment Runs</option>
+    <option>Phone Engineer</option>
+    <option>Graphics Design</option>
+    <option>Other Services</option>
 
-    <form id="providerForm">
+  </select>
 
-      <input
-        type="text"
-        id="fullName"
-        placeholder="Full Name"
-        required
-      >
+  <input
+    type="text"
+    id="location"
+    placeholder="Your Campus / Location"
+    required
+  >
 
-      <input
-        type="tel"
-        id="phone"
-        placeholder="Phone / WhatsApp Number"
-        required
-      >
+  <input
+    type="number"
+    id="price"
+    placeholder="Starting Price (₦)"
+    min="0"
+    required
+  >
 
-      <input
-        type="email"
-        id="email"
-        placeholder="Email Address"
-        required
-      >
+  <textarea
+    id="description"
+    placeholder="Describe your service..."
+    required
+  ></textarea>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Create Password"
-        minlength="6"
-        required
-      >
+  <button type="submit">
+    📝 Register as a Provider
+  </button>
 
-      <input
-        type="text"
-        id="university"
-        placeholder="University"
-        required
-      >
+</form>
 
-      <select id="service" required>
+<p id="registrationMessage" class="message"></p>
 
-        <option value="">
-          Select your service
-        </option>
+  </section></div><footer>  <p>© 2026 Good News Campus Connect</p>  <p>Connecting students with opportunities.</p></footer><!-- FIREBASE --><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script><script>
 
-        <option>Laundry</option>
-        <option>Laptop Engineer</option>
-        <option>Cleaning Services</option>
-        <option>Hair Dressing</option>
-        <option>Nail Technician</option>
-        <option>Painter</option>
-        <option>Website Developer</option>
-        <option>Assignment Runs</option>
-        <option>Phone Engineer</option>
-        <option>Graphics Design</option>
-        <option>Other Services</option>
-
-      </select>
-
-      <input
-        type="text"
-        id="location"
-        placeholder="Your Campus / Location"
-        required
-      >
-
-      <input
-        type="number"
-        id="price"
-        placeholder="Starting Price (₦)"
-        min="0"
-        required
-      >
-
-      <textarea
-        id="description"
-        placeholder="Describe your service..."
-        required
-      ></textarea>
-
-      <button type="submit">
-        📝 Register as a Provider
-      </button>
-
-    </form>
-
-    <p id="registrationMessage" class="message"></p>
-
-  </section>
-
-</div>
-
-
-<footer>
-
-  <p>© 2026 Good News Campus Connect</p>
-
-  <p>
-    Connecting students with opportunities.
-  </p>
-
-</footer>
-
-
-<!-- FIREBASE -->
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
-
-
-<script>
+/* =========================
+   FIREBASE CONFIGURATION
+========================= */
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
+  apiKey: "AIzaSyAcDn35G2ClO1pkAV1Wsq0V-lUx-qDXDZU",
 
-  authDomain:
-    "good-news-campus-connect.firebaseapp.com",
+  authDomain: "good-news-campus-connect.firebaseapp.com",
 
-  projectId:
-    "good-news-campus-connect",
+  projectId: "good-news-campus-connect",
 
-  storageBucket:
-    "good-news-campus-connect.firebasestorage.app",
+  storageBucket: "good-news-campus-connect.firebasestorage.app",
 
-  messagingSenderId:
-    "301910999227",
+  messagingSenderId: "301910999227",
 
-  appId:
-    "1:301910999227:web:e5a4fb85d33380521c299e"
+  appId: "1:301910999227:web:e5a4fb85d33380521c299e"
 
 };
 
@@ -250,11 +195,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-const auth =
-  firebase.auth();
+const auth = firebase.auth();
 
-const db =
-  firebase.firestore();
+const db = firebase.firestore();
 
 
 /* =========================
@@ -298,12 +241,89 @@ document
 
       .then(function(userCredential) {
 
-        message.textContent =
-          "Login successful! 🎉";
+        const user =
+          userCredential.user;
 
 
-        window.location.href =
-          "provider-dashboard.html";
+        return db
+          .collection("providers")
+          .doc(user.uid)
+          .get();
+
+      })
+
+      .then(function(doc) {
+
+        if (!doc.exists) {
+
+          auth.signOut();
+
+          throw new Error(
+            "Provider profile not found."
+          );
+
+        }
+
+
+        const provider =
+          doc.data();
+
+
+        /* APPROVED PROVIDER */
+
+        if (
+          provider.status === "approved" &&
+          provider.verified === true
+        ) {
+
+          message.textContent =
+            "Login successful! 🎉";
+
+
+          window.location.href =
+            "provider-dashboard.html";
+
+        }
+
+
+        /* PENDING PROVIDER */
+
+        else if (
+          provider.status === "pending"
+        ) {
+
+          message.textContent =
+            "⏳ Your account is awaiting admin verification.";
+
+          auth.signOut();
+
+        }
+
+
+        /* SUSPENDED PROVIDER */
+
+        else if (
+          provider.status === "suspended"
+        ) {
+
+          message.textContent =
+            "🚫 Your provider account has been suspended.";
+
+          auth.signOut();
+
+        }
+
+
+        /* OTHER STATUS */
+
+        else {
+
+          message.textContent =
+            "Your provider account is not active.";
+
+          auth.signOut();
+
+        }
 
       })
 
@@ -417,12 +437,6 @@ document
           userCredential.user;
 
 
-        /*
-          IMPORTANT:
-          The Firestore document ID is
-          the Firebase Authentication UID.
-        */
-
         return db
           .collection("providers")
           .doc(user.uid)
@@ -446,7 +460,11 @@ document
 
             role: "provider",
 
-            status: "available",
+            /* NEW VERIFICATION SYSTEM */
+
+            status: "pending",
+
+            verified: false,
 
             createdAt:
               firebase.firestore
@@ -460,11 +478,11 @@ document
       .then(function() {
 
         message.textContent =
-          "Provider account created successfully! 🎉";
+          "🎉 Registration successful! Your account is now awaiting admin verification.";
 
-
-        window.location.href =
-          "provider-dashboard.html";
+        document
+          .getElementById("providerForm")
+          .reset();
 
       })
 
@@ -483,5 +501,5 @@ document
 
 </script>
 
-</body>
+  </body>
   </html>
